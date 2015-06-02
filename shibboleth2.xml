@@ -1,0 +1,93 @@
+<SPConfig
+    xmlns="urn:mace:shibboleth:2.0:native:sp:config"
+    xmlns:conf="urn:mace:shibboleth:2.0:native:sp:config"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    clockSkew="180">
+    <ApplicationDefaults
+        entityID="https://test-sp.clarin.eu/shibboleth"
+        REMOTE_USER="eppn persistent-id targeted-id">
+        <Sessions
+            lifetime="28800"
+            timeout="3600"
+            relayState="ss:mem"
+            checkAddress="true"
+            handlerSSL="true"
+            cookieProps="https">
+            <Logout>SAML2 Local</Logout>
+            <!-- CLARIN central discovery service (DiscoJuice) -->
+            <!-- # tag::SSO[] -->
+            <SSO
+                discoveryProtocol="SAMLDS"
+                discoveryURL="https://discovery.clarin.eu/discojuice">
+                SAML2
+            </SSO>
+            <!-- # end::SSO[] -->
+            <!-- # tag::MetadataGenerator[] -->
+            <Handler
+                type="MetadataGenerator"
+                Location="/Metadata"
+                signing="false"
+                template="test-sp.clarin.eu.template.metadata.xml"/>
+            <!-- # end::MetadataGenerator[] -->
+            <Handler
+                type="Status"
+                Location="/Status"
+                acl="127.0.0.1 ::1"/>
+            <Handler
+                type="Session"
+                Location="/Session"
+                showAttributeValues="false"/>
+            <Handler
+                type="DiscoveryFeed"
+                Location="/DiscoFeed"/>
+        </Sessions>
+        <Errors
+            supportContact="spf@clarin.eu"
+            helpLocation="/about.html"
+            styleSheet="/shibboleth-sp/main.css"/>
+        <!-- # tag::MetadataProvider[] -->
+        <MetadataProvider type="Chaining">
+            <!-- SAML metadata about all contracted identity federations' production IdPs. -->
+            <MetadataProvider
+                type="XML"
+                uri="https://infra.clarin.eu/aai/prod_md_about_spf_idps.xml"
+                backingFilePath="prod_md_about_spf_idps.xml"
+                reloadInterval="7200"/>
+            <!-- SAML metadata about the CLARIN IdP. -->
+            <MetadataProvider
+                type="XML"
+                uri="https://infra.clarin.eu/aai/prod_md_about_clarin_erics_idp.xml"
+                backingFilePath="prod_md_about_clarin_erics_idp.xml"
+                reloadInterval="7200"/>
+            </MetadataProvider>
+        </MetadataProvider>
+        <!-- # end::MetadataProvider[] -->
+        <AttributeExtractor
+            type="XML"
+            validate="true"
+            reloadChanges="false"
+            path="attribute-map.xml"/>
+        <AttributeResolver
+            type="Query"
+            subjectMatch="true"/>
+        <AttributeFilter
+            type="XML"
+            validate="true"
+            path="attribute-policy.xml"/>
+        <CredentialResolver
+            type="File"
+            key="sp-key.pem"
+            certificate="sp-cert.pem"/>
+    </ApplicationDefaults>
+    <SecurityPolicyProvider
+        type="XML"
+        validate="true"
+        path="security-policy.xml"/>
+    <ProtocolProvider
+        type="XML"
+        validate="true"
+        reloadChanges="false"
+        path="protocols.xml"/>
+</SPConfig>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<md:EntityDescriptor
+    entityID="https://test-sp.clarin.eu"
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata">
+    <md:Extensions>
+        <mdattr:EntityAttributes
+            xmlns:mdattr="urn:oasis:names:tc:SAML:metadata:attribute">
+            <saml:Attribute
+                xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
+                Name="http://macedir.org/entity-category">
+                <saml:AttributeValue>http://www.geant.net/uri/dataprotection-code-of-conduct/v1</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute
+                xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                Name="http://macedir.org/entity-category"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+                <saml:AttributeValue>http://refeds.org/category/research-and-scholarship</saml:AttributeValue>
+            </saml:Attribute>
+        </mdattr:EntityAttributes>
+    </md:Extensions>
+    <md:SPSSODescriptor
+        protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        <md:Extensions>
+            <mdui:UIInfo
+                xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">
+                <mdui:DisplayName
+                    xml:lang="en">CLARIN CMDI metadata applications and services - test-sp</mdui:DisplayName>
+                <mdui:Description
+                    xml:lang="en">For the Component Registry, Virtual Language Observatory.</mdui:Description>
+                <mdui:DisplayName
+                    xml:lang="de">CLARIN CMDI Metadaten Anwendungen und Dienste - test-sp</mdui:DisplayName>
+                <mdui:Description
+                    xml:lang="de">Für die Component Registry, Virtual Language Observatory.</mdui:Description>
+                <mdui:DisplayName
+                    xml:lang="fi">CLARIN CMDI metatiedot sovellukset ja palvelut - test-sp</mdui:DisplayName>
+                <mdui:Description
+                    xml:lang="fi">Component rekisterin, Virtual Language observatorio.</mdui:Description>
+                <mdui:DisplayName
+                    xml:lang="nl">CLARIN CMDI metadata toepassingen en diensten - test-sp</mdui:DisplayName>
+                <mdui:Description
+                    xml:lang="nl">Voor de Component Registry, Virtual Language Observatory.</mdui:Description>
+                <mdui:InformationURL
+                    xml:lang="en">https://www.clarin.eu/applications</mdui:InformationURL>
+                <mdui:Logo
+                    height="220"
+                    width="195">https://www.clarin.eu/sites/default/files/clarin-logo.png</mdui:Logo>
+                <mdui:Keywords
+                    xml:lang="en">CLARIN test-sp Component+Registry Virtual+Language+Observatory VLO</mdui:Keywords>
+                <mdui:Keywords
+                    xml:lang="nl">CLARIN test-sp Component+Registry Virtual+Language+Observatory VLO</mdui:Keywords>
+                <mdui:PrivacyStatementURL
+                    xml:lang="en">https://test-sp.clarin.eu/privacy_statement.html</mdui:PrivacyStatementURL>
+            </mdui:UIInfo>
+        </md:Extensions>
+        <md:AttributeConsumingService
+            index="1">
+            <md:ServiceName xml:lang="en">CLARIN CMDI metadata applications and services - test-sp</md:ServiceName>
+            <md:ServiceName xml:lang="nl">CLARIN CMDI metadata toepassingen en diensten - test-sp</md:ServiceName>
+            <md:ServiceDescription xml:lang="en">For the Component Registry, Virtual Language Observatory.</md:ServiceDescription>
+            <md:ServiceDescription xml:lang="nl">Voor de Component Registry, Virtual Language Observatory.</md:ServiceDescription>
+            <md:RequestedAttribute
+                FriendlyName="eduPersonTargetedID"
+                Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
+                isRequired="true"/>
+        </md:AttributeConsumingService>
+    </md:SPSSODescriptor>
+    <md:Organization>
+        <md:OrganizationName xml:lang="en">CLARIN ERIC</md:OrganizationName>
+        <md:OrganizationDisplayName xml:lang="en">CLARIN</md:OrganizationDisplayName>
+        <md:OrganizationURL
+            xml:lang="en">https://www.clarin.eu/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson
+        contactType="administrative">
+        <md:EmailAddress>mailto:clarin@clarin.eu</md:EmailAddress>
+    </md:ContactPerson>
+    <md:ContactPerson
+        contactType="technical">
+        <md:EmailAddress>mailto:sysops@clarin.eu</md:EmailAddress>
+    </md:ContactPerson>
+</md:EntityDescriptor>
