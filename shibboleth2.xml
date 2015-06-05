@@ -22,8 +22,8 @@
                 discoveryURL="https://discovery.clarin.eu/discojuice">
                 SAML2
             </SSO>
-            <Logout>SAML2 Local</Logout>
             <!-- # end::SSO[] -->
+            <Logout>SAML2 Local</Logout>
             <!-- # tag::MetadataGenerator[] -->
             <Handler
                 type="MetadataGenerator"
