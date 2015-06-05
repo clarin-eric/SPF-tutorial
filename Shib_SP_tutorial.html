@@ -550,7 +550,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_creating_a_host_and_making_it_reachable_from_outside">2.1. Creating a host and making it reachable from outside</h3>
 <div class="paragraph">
-<p>Visit <a href="https://console.developers.google.com/" class="bare">https://console.developers.google.com/</a> and create a project, then an instance under that project. In the following, I assume that you will use a project named 'test-sp' with an instance named 'instance-1'. Furthermore, you must assign a clear public DNS <strong>domain name</strong> to one of the SP host&#8217;s <strong>static external IP addresses</strong> via your DNS hosting provider or perhaps GCE itself. I will refer to your computer, running a modern Unix-like OS with common utilities such as <code>curl</code>, <code>OpenSSH</code> and <code>rsync</code> as well an XML editor, as <strong>your workstation</strong> and to the remote computer on which the SP will be set up as <strong>the SP host</strong>. Please also tick the 'Allow HTTPS traffic' under 'Network' in the instance settings.</p>
+<p>Visit <a href="https://console.developers.google.com/" class="bare">https://console.developers.google.com/</a> and create a project, then an instance under that project. In the following, you are free to use an arbitrary project name (e.g. <code>test-sp</code>) with an instance name (e.g. <code>test-sp.clarin.eu-1</code>). Mandatory is to register a fully-qualified <strong>domain name</strong> (FQDN) pointing to one of the SP host&#8217;s <strong>static external IP addresses</strong> via your DNS hosting provider or perhaps GCE itself. In this tutorial I assume an FQDN of <code>test-sp.clarin.eu</code>. The following, please substitute <code>test-sp.clarin.eu</code> with the fully-qualified domain name (FQDN) of your SP host, and likewise for the hostname <code>test-sp</code>. I will refer to your computer, running a modern Unix-like OS with common utilities such as <code>curl</code>, <code>OpenSSH</code> and <code>rsync</code> as well an XML editor, as <strong>your workstation</strong> and to the remote computer on which the SP will be set up as <strong>the SP host</strong>. Please also tick the 'Allow HTTPS traffic' under 'Network' in the instance settings.</p>
 </div>
 </div>
 <div class="sect2">
@@ -565,7 +565,7 @@ cat ~/<span class="tok-s1">&#39;.ssh/Your_Google_Name@test-sp.clarin.eu.pub&#39;
 </div>
 </div>
 <div class="paragraph">
-<p>replacing <code>test-sp.clarin.eu</code> with the fully-qualified domain name (FQDN) of your SP host that you set with your DNS hosting provider, and <code>Your_Google_Name</code> with your own Google login name.</p>
+<p>Substituting <code>Your_Google_Name</code> with your own Google login name.</p>
 </div>
 <div class="paragraph">
 <p>Now copy and paste your SSH public key, which is now displayed as a result of the last <code>cat</code> command, key into <a href="https://cloud.google.com/compute/docs/console#sshkeys">your GCE configuration</a>.</p>
@@ -582,14 +582,14 @@ cat ~/<span class="tok-s1">&#39;.ssh/Your_Google_Name@test-sp.clarin.eu.pub&#39;
 </div>
 </div>
 <div class="paragraph">
-<p>replacing <code>test-sp.clarin.eu</code> with the fully-qualified domain name (FQDN) of your SP host, and <code>Your_Google_Name</code> with your own Google login name.</p>
+<p>Substituting <code>Your_Google_Name</code> with your own Google login name.</p>
 </div>
 <div class="paragraph">
 <p>You should now SSH into your SP host from a shell on your workstation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">ssh <span class="tok-s1">&#39;test-sp&#39;</span></code></pre>
+<pre>ssh 'test-sp'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -684,7 +684,7 @@ sudo rm <span class="tok-s1">&#39;ius-release-1.0-13.ius.centos7.noarch.rpm&#39;
 <div class="sect2">
 <h3 id="_changing_its_mode_from_prefork_to_worker">3.1. Changing its mode from prefork to worker</h3>
 <div class="paragraph">
-<p>Shibboleth SP <a href="https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig">demands that deployers run the coupled Apache HTTP server in the 'worker' mode</a> for performance reasons. Therefore, change Apache HTTP server&#8217;s mode to 'worker' in <code>/etc/httpd/conf.modules.d/00-mpm.conf</code>.</p>
+<p>Shibboleth SP <a href="https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig">demands that deployers run the coupled Apache HTTP server in the 'worker' mode</a> for performance reasons. Therefore, change <code>httpd&#8217;s mode to 'worker' in `/etc/httpd/conf.modules.d/00-mpm.conf</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -757,7 +757,7 @@ To start out with, you can copy a template Virtual Host configuration file into 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">sudo cp --archive -v <span class="tok-s1">&#39;/usr/share/doc/httpd-2.4.6/httpd-vhosts.conf&#39;</span> <span class="tok-s1">&#39;/etc/httpd/conf.d/test-sp.clarin.eu.conf&#39;</span></code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">sudo cp --archive -v '/usr/share/doc/httpd-2.4.6/httpd-vhosts.conf' '/etc/httpd/conf.d/test-sp.clarin.eu.conf'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -904,8 +904,8 @@ The contents of this helper configuration file are simply based on Red Hat 7&#82
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh"><span class="tok-o">(</span>sudo mkdir --mode<span class="tok-o">=</span>a+rx --parents -v <span class="tok-s1">&#39;/srv/www/test-sp.clarin.eu/&#39;</span> <span class="tok-p">;</span>
-<span class="tok-nb">cd</span> <span class="tok-s1">&#39;/srv/www/test-sp.clarin.eu/&#39;</span> <span class="tok-o">&amp;&amp;</span>
+<pre class="pygments highlight"><code data-lang="Sh"><span class="tok-o">(</span>sudo mkdir --mode<span class="tok-o">=</span>a+rx --parents -v <span class="tok-s1">&#39;/srv/www/{sp-fqdn}/&#39;</span> <span class="tok-p">;</span>
+<span class="tok-nb">cd</span> <span class="tok-s1">&#39;/srv/www/{sp-fqdn}/&#39;</span> <span class="tok-o">&amp;&amp;</span>
 sudo chown --recursive v --reference<span class="tok-o">=</span><span class="tok-s1">&#39;/var/www/&#39;</span> <span class="tok-s1">&#39;/srv/www/&#39;</span> <span class="tok-o">&amp;&amp;</span>
 sudo chmod --recursive v --reference<span class="tok-o">=</span><span class="tok-s1">&#39;/var/www/&#39;</span> <span class="tok-s1">&#39;/srv/www/&#39;</span> <span class="tok-o">&amp;&amp;</span>
 sudo chcon --recursive --type httpd_used_content_t <span class="tok-s1">&#39;/srv/www/&#39;</span><span class="tok-o">)</span></code></pre>
@@ -916,10 +916,10 @@ sudo chcon --recursive --type httpd_used_content_t <span class="tok-s1">&#39;/sr
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh"><span class="tok-o">(</span><span class="tok-nb">cd</span> <span class="tok-s1">&#39;/srv/www/test-sp.clarin.eu/&#39;</span> <span class="tok-o">&amp;&amp;</span>
-sudo mkdir -v <span class="tok-s1">&#39;protected/&#39;</span> <span class="tok-o">&amp;&amp;</span>
-<span class="tok-nb">printf</span> <span class="tok-s1">&#39;%s\n&#39;</span> <span class="tok-s1">&#39;This is a protected resource.&#39;</span> <span class="tok-p">|</span> sudo tee <span class="tok-s1">&#39;protected/my_resource.txt&#39;</span> <span class="tok-o">&amp;&amp;</span>
-<span class="tok-nb">printf</span> <span class="tok-s1">&#39;%s\n&#39;</span> <span class="tok-s1">&#39;This is an unprotected resource.&#39;</span> <span class="tok-p">|</span> sudo tee <span class="tok-s1">&#39;my_resource.txt&#39;</span><span class="tok-o">)</span></code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">(cd '/srv/www/test-sp.clarin.eu/' &&
+sudo mkdir -v 'protected/' &&
+printf '%s\n' 'This is a protected resource.' | sudo tee 'protected/my_resource.txt' &&
+printf '%s\n' 'This is an unprotected resource.' | sudo tee 'my_resource.txt')</code></pre>
 </div>
 </div>
 </div>
@@ -951,13 +951,13 @@ An important source of service-disrupting errors in XML configuration files is i
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">mkdir ~/<span class="tok-s1">&#39;instance-1/&#39;</span> <span class="tok-p">;</span>
-<span class="tok-o">(</span><span class="tok-nb">cd</span> ~/<span class="tok-s1">&#39;instance-1/&#39;</span> <span class="tok-o">&amp;&amp;</span>
-rsync -archive --backup --itemize-changes --no-owner --no-group --relative --update -v  <span class="tok-s1">&#39;instance-1:/etc/shibboleth/&#39;</span> .<span class="tok-o">)</span></code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">mkdir ~/'test-sp/' ;
+(cd ~/'test-sp/' &&
+rsync --archive --backup --itemize-changes --no-owner --no-group --relative --update -v 'test-sp:/etc/shibboleth/' .)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Open up your XML editor and open the file <code>~/'instance-1/etc/shibboleth/shibboleth2.xml'</code>.
+<p>Open up your XML editor and open the file <code>~/'test-sp/etc/shibboleth/shibboleth2.xml'</code>.
 A few positions in this XML document (pointed to by the following XPath expressions) should be changed to get a basic working configuration.</p>
 </div>
 <div class="sect3">
@@ -1045,20 +1045,27 @@ This looks like a URL, but it is a URI and basically <a href="https://wiki.shibb
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="XML"><span class="tok-nt">&lt;MetadataProvider</span> <span class="tok-na">type=</span><span class="tok-s">&quot;Chaining&quot;</span><span class="tok-nt">&gt;</span>
+<pre class="pygments highlight"><code data-lang="XML"><span class="tok-nt">&lt;MetadataProvider</span>
+    <span class="tok-na">xmlns:xi=</span><span class="tok-s">&quot;http://www.w3.org/2001/XInclude&quot;</span>
+    <span class="tok-na">type=</span><span class="tok-s">&quot;Chaining&quot;</span><span class="tok-nt">&gt;</span>
     <span class="tok-c">&lt;!-- SAML metadata about all contracted identity federations&#39; production IdPs. --&gt;</span>
     <span class="tok-nt">&lt;MetadataProvider</span>
         <span class="tok-na">type=</span><span class="tok-s">&quot;XML&quot;</span>
         <span class="tok-na">uri=</span><span class="tok-s">&quot;https://infra.clarin.eu/aai/prod_md_about_spf_idps.xml&quot;</span>
         <span class="tok-na">backingFilePath=</span><span class="tok-s">&quot;prod_md_about_spf_idps.xml&quot;</span>
-        <span class="tok-na">reloadInterval=</span><span class="tok-s">&quot;7200&quot;</span><span class="tok-nt">/&gt;</span>
+        <span class="tok-na">reloadInterval=</span><span class="tok-s">&quot;7200&quot;</span><span class="tok-nt">&gt;</span>
+        <span class="tok-nt">&lt;MetadataFilter</span>
+            <span class="tok-na">xmlns=</span><span class="tok-s">&quot;urn:mace:shibboleth:2.0:native:sp:config&quot;</span>
+            <span class="tok-na">type=</span><span class="tok-s">&quot;Blacklist&quot;</span><span class="tok-nt">&gt;</span>
+            <span class="tok-nt">&lt;Exclude&gt;</span>https://openidp.aco.net/saml<span class="tok-nt">&lt;/Exclude&gt;</span>
+        <span class="tok-nt">&lt;/MetadataFilter&gt;</span>
+    <span class="tok-nt">&lt;/MetadataProvider&gt;</span>
     <span class="tok-c">&lt;!-- SAML metadata about the CLARIN IdP. --&gt;</span>
     <span class="tok-nt">&lt;MetadataProvider</span>
         <span class="tok-na">type=</span><span class="tok-s">&quot;XML&quot;</span>
         <span class="tok-na">uri=</span><span class="tok-s">&quot;https://infra.clarin.eu/aai/prod_md_about_clarin_erics_idp.xml&quot;</span>
         <span class="tok-na">backingFilePath=</span><span class="tok-s">&quot;prod_md_about_clarin_erics_idp.xml&quot;</span>
         <span class="tok-na">reloadInterval=</span><span class="tok-s">&quot;7200&quot;</span><span class="tok-nt">/&gt;</span>
-    <span class="tok-nt">&lt;/MetadataProvider&gt;</span>
 <span class="tok-nt">&lt;/MetadataProvider&gt;</span></code></pre>
 </div>
 </div>
@@ -1085,11 +1092,13 @@ This looks like a URL, but it is a URI and basically <a href="https://wiki.shibb
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="XML"><span class="tok-nt">&lt;SSO</span>
+<pre class="pygments highlight"><code data-lang="XML"><span class="tok-c">&lt;!-- CLARIN central discovery service (DiscoJuice) --&gt;</span>
+<span class="tok-nt">&lt;SSO</span>
     <span class="tok-na">discoveryProtocol=</span><span class="tok-s">&quot;SAMLDS&quot;</span>
     <span class="tok-na">discoveryURL=</span><span class="tok-s">&quot;https://discovery.clarin.eu/discojuice&quot;</span><span class="tok-nt">&gt;</span>
     SAML2
-<span class="tok-nt">&lt;/SSO&gt;</span></code></pre>
+<span class="tok-nt">&lt;/SSO&gt;</span>
+<span class="tok-nt">&lt;Logout&gt;</span>SAML2 Local<span class="tok-nt">&lt;/Logout&gt;</span></code></pre>
 </div>
 </div>
 </li>
@@ -1182,14 +1191,14 @@ Configuration is not documentation and any documentation you leave in now may be
             <span class="tok-na">checkAddress=</span><span class="tok-s">&quot;true&quot;</span>
             <span class="tok-na">handlerSSL=</span><span class="tok-s">&quot;true&quot;</span>
             <span class="tok-na">cookieProps=</span><span class="tok-s">&quot;https&quot;</span><span class="tok-nt">&gt;</span>
-            <span class="tok-nt">&lt;Logout&gt;</span>SAML2 Local<span class="tok-nt">&lt;/Logout&gt;</span>
-            <span class="tok-c">&lt;!-- CLARIN central discovery service (DiscoJuice) --&gt;</span>
             <span class="tok-c">&lt;!-- # tag::SSO[] --&gt;</span>
+            <span class="tok-c">&lt;!-- CLARIN central discovery service (DiscoJuice) --&gt;</span>
             <span class="tok-nt">&lt;SSO</span>
                 <span class="tok-na">discoveryProtocol=</span><span class="tok-s">&quot;SAMLDS&quot;</span>
                 <span class="tok-na">discoveryURL=</span><span class="tok-s">&quot;https://discovery.clarin.eu/discojuice&quot;</span><span class="tok-nt">&gt;</span>
                 SAML2
             <span class="tok-nt">&lt;/SSO&gt;</span>
+            <span class="tok-nt">&lt;Logout&gt;</span>SAML2 Local<span class="tok-nt">&lt;/Logout&gt;</span>
             <span class="tok-c">&lt;!-- # end::SSO[] --&gt;</span>
             <span class="tok-c">&lt;!-- # tag::MetadataGenerator[] --&gt;</span>
             <span class="tok-nt">&lt;Handler</span>
@@ -1215,20 +1224,29 @@ Configuration is not documentation and any documentation you leave in now may be
             <span class="tok-na">helpLocation=</span><span class="tok-s">&quot;/about.html&quot;</span>
             <span class="tok-na">styleSheet=</span><span class="tok-s">&quot;/shibboleth-sp/main.css&quot;</span><span class="tok-nt">/&gt;</span>
         <span class="tok-c">&lt;!-- # tag::MetadataProvider[] --&gt;</span>
-        <span class="tok-nt">&lt;MetadataProvider</span> <span class="tok-na">type=</span><span class="tok-s">&quot;Chaining&quot;</span><span class="tok-nt">&gt;</span>
+        <span class="tok-nt">&lt;MetadataProvider</span>
+            <span class="tok-na">xmlns:xi=</span><span class="tok-s">&quot;http://www.w3.org/2001/XInclude&quot;</span>
+            <span class="tok-na">type=</span><span class="tok-s">&quot;Chaining&quot;</span><span class="tok-nt">&gt;</span>
             <span class="tok-c">&lt;!-- SAML metadata about all contracted identity federations&#39; production IdPs. --&gt;</span>
             <span class="tok-nt">&lt;MetadataProvider</span>
                 <span class="tok-na">type=</span><span class="tok-s">&quot;XML&quot;</span>
                 <span class="tok-na">uri=</span><span class="tok-s">&quot;https://infra.clarin.eu/aai/prod_md_about_spf_idps.xml&quot;</span>
                 <span class="tok-na">backingFilePath=</span><span class="tok-s">&quot;prod_md_about_spf_idps.xml&quot;</span>
-                <span class="tok-na">reloadInterval=</span><span class="tok-s">&quot;7200&quot;</span><span class="tok-nt">/&gt;</span>
+                <span class="tok-na">reloadInterval=</span><span class="tok-s">&quot;7200&quot;</span><span class="tok-nt">&gt;</span>
+                <span class="tok-c">&lt;!-- # tag::MetadataFilter[] --&gt;</span>
+                <span class="tok-nt">&lt;MetadataFilter</span>
+                    <span class="tok-na">xmlns=</span><span class="tok-s">&quot;urn:mace:shibboleth:2.0:native:sp:config&quot;</span>
+                    <span class="tok-na">type=</span><span class="tok-s">&quot;Blacklist&quot;</span><span class="tok-nt">&gt;</span>
+                    <span class="tok-nt">&lt;Exclude&gt;</span>https://openidp.aco.net/saml<span class="tok-nt">&lt;/Exclude&gt;</span>
+                <span class="tok-nt">&lt;/MetadataFilter&gt;</span>
+                <span class="tok-c">&lt;!-- # tag::MetadataFilter[] --&gt;</span>
+            <span class="tok-nt">&lt;/MetadataProvider&gt;</span>
             <span class="tok-c">&lt;!-- SAML metadata about the CLARIN IdP. --&gt;</span>
             <span class="tok-nt">&lt;MetadataProvider</span>
                 <span class="tok-na">type=</span><span class="tok-s">&quot;XML&quot;</span>
                 <span class="tok-na">uri=</span><span class="tok-s">&quot;https://infra.clarin.eu/aai/prod_md_about_clarin_erics_idp.xml&quot;</span>
                 <span class="tok-na">backingFilePath=</span><span class="tok-s">&quot;prod_md_about_clarin_erics_idp.xml&quot;</span>
                 <span class="tok-na">reloadInterval=</span><span class="tok-s">&quot;7200&quot;</span><span class="tok-nt">/&gt;</span>
-            <span class="tok-nt">&lt;/MetadataProvider&gt;</span>
         <span class="tok-nt">&lt;/MetadataProvider&gt;</span>
         <span class="tok-c">&lt;!-- # end::MetadataProvider[] --&gt;</span>
         <span class="tok-nt">&lt;AttributeExtractor</span>
@@ -1295,13 +1313,13 @@ The most <strong>relevant</strong> two are:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">mkdir --mode<span class="tok-o">=</span><span class="tok-nv">u</span><span class="tok-o">=</span>rwx,go<span class="tok-o">=</span> <span class="tok-s1">&#39;/root/keys/&#39;</span> <span class="tok-p">;</span>
-<span class="tok-nb">cd</span> <span class="tok-s1">&#39;/root/keys/&#39;</span> <span class="tok-o">&amp;&amp;</span>
-<span class="tok-nb">command</span> -p openssl req -new -x509 -nodes -newkey rsa:2048 -keyout <span class="tok-s1">&#39;test-sp.clarin.eu.private-key.pem&#39;</span> -days <span class="tok-m">3650</span> -subj <span class="tok-s1">&#39;/CN=test-sp.clarin.eu&#39;</span> -out <span class="tok-s1">&#39;test-sp.clarin.eu.crt&#39;</span> <span class="tok-o">&amp;&amp;</span>
-chown shibd:shibd <span class="tok-s1">&#39;test-sp.clarin.eu.private-key.pem&#39;</span> <span class="tok-s1">&#39;test-sp.clarin.eu.crt&#39;</span> <span class="tok-o">&amp;&amp;</span>
-ln --force -v <span class="tok-s1">&#39;/root/keys/test-sp.clarin.eu.private-key.pem&#39;</span> <span class="tok-s1">&#39;/etc/shibboleth/sp-key.pem&#39;</span> <span class="tok-o">&amp;&amp;</span>
-ln --force -v <span class="tok-s1">&#39;/root/keys/test-sp.clarin.eu.crt&#39;</span> <span class="tok-s1">&#39;/etc/shibboleth/sp-cert.pem&#39;</span> <span class="tok-o">&amp;&amp;</span>
-<span class="tok-nb">exit</span></code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">mkdir --mode=u=rwx,go= '/root/keys/' ;
+cd '/root/keys/' &&
+command -p openssl req -new -x509 -nodes -newkey rsa:2048 -keyout 'test-sp.clarin.eu.private-key.pem' -days 3650 -subj '/CN=test-sp.clarin.eu' -out 'test-sp.clarin.eu.crt' &&
+chown shibd:shibd 'test-sp.clarin.eu.private-key.pem' 'test-sp.clarin.eu.crt' &&
+ln --force -v '/root/keys/test-sp.clarin.eu.private-key.pem' '/etc/shibboleth/sp-key.pem' &&
+ln --force -v '/root/keys/test-sp.clarin.eu.crt' '/etc/shibboleth/sp-cert.pem' &&
+exit</code></pre>
 </div>
 </div>
 </div>
@@ -1311,7 +1329,7 @@ ln --force -v <span class="tok-s1">&#39;/root/keys/test-sp.clarin.eu.crt&#39;</s
 <p>SAML metadata that describes your SP is required for your SP to be registered with identity federations. While you create and update this SAML metadata, it is managed centrally by the SPF administration.</p>
 </div>
 <div class="paragraph">
-<p>As described on <a href="http://www.clarin.eu/content/how-sp-metadata-distributed-national-identity-federations">the relevant CLARIN web page</a>, the contents of the preproduction SAML metadata batch about SPF SPs at <a href="https://infra.clarin.eu/aai/md_about_spf_sps.xml" class="bare">https://infra.clarin.eu/aai/md_about_spf_sps.xml</a> are directly sourced from the SAML metadata batch kept in the CLARIN Subversion repository at <a href="https://svn.clarin.eu/aai/clarin-sp-metadata.xml" class="bare">https://svn.clarin.eu/aai/clarin-sp-metadata.xml</a>.</p>
+<p>As described on <a href="http://www.clarin.eu/content/how-sp-metadata-distributed-national-identity-federations">this CLARIN web page</a>, the contents of the preproduction SAML metadata batch about SPF SPs at <a href="https://infra.clarin.eu/aai/md_about_spf_sps.xml" class="bare">https://infra.clarin.eu/aai/md_about_spf_sps.xml</a> are directly sourced from the SAML metadata batch kept in the CLARIN Subversion repository at <a href="https://svn.clarin.eu/aai/clarin-sp-metadata.xml" class="bare">https://svn.clarin.eu/aai/clarin-sp-metadata.xml</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1326,7 +1344,7 @@ You may have to temporarily configure your XML editor to accept invalid X.509 ce
 </table>
 </div>
 <div class="paragraph">
-<p>Now create the SAML metadata template file <code>'test-sp.clarin.eu.template.metadata.xml'</code> in <code>~/'instance-1/etc/shibboleth'</code> in the following way.</p>
+<p>Now create the SAML metadata template file <code>'test-sp.clarin.eu.template.metadata.xml'</code> in <code>~/'test-sp/etc/shibboleth'</code> in the following way.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1592,7 +1610,7 @@ IOqaoamtxfvZUX+kqadp
 </div>
 </li>
 <li>
-<p>Add the contents (again, the <code>md:EntityDescriptor</code>) of the previously saved <code>'test-sp.clarin.eu.template.metadata.xml'</code> as an element under <code>/md:EntitiesDescriptor</code> in your checked out version of <code>'clarin-sp-metadata.xml'</code>. Save the file.</p>
+<p>Add the contents (again, the <code>md:EntityDescriptor</code>) of the previously saved <code>'test-sp.clarin.eu.template.metadata.xml'</code> as an element under <code>/md:EntitiesDescriptor</code> in your checked out version of <code>'clarin-sp-metadata.xml'</code>. Save the latter file.</p>
 </li>
 <li>
 <p>Validate the file with your XML editor and the appropriate XML catalog of XSD schemas, or alternatively using the accompanying command line utility <code>'check_saml_metadata.sh'</code>.</p>
@@ -1622,8 +1640,8 @@ svn commit <span class="tok-s1">&#39;clarin-sp-metadata.xml&#39;</span><span cla
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh"><span class="tok-o">(</span><span class="tok-nb">cd</span> ~/instance-1/etc/shibboleth/ <span class="tok-o">&amp;&amp;</span>
-rsync --archive --backup --itemize-changes --no-owner --no-group --relative --update -v <span class="tok-s1">&#39;.&#39;</span> <span class="tok-s1">&#39;instance-1:shibboleth&#39;</span><span class="tok-o">)</span></code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">(cd ~/test-sp/etc/shibboleth/ &&
+rsync --archive --backup --itemize-changes --no-owner --no-group --relative --update -v '.' 'test-sp:shibboleth')</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1642,15 +1660,15 @@ sudo rsync --archive --backup --itemize-changes --no-owner --no-group --relative
 <h2 id="_starting_and_enabling_shibboleth_sp_and_apache_http_server">5. Starting and enabling Shibboleth SP and Apache HTTP Server</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Reload <code>shibd</code>:</p>
+<p>(Re)start <code>shibd</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">sudo systemctl reload <span class="tok-s1">&#39;shibd&#39;</span></code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">sudo systemctl restart <span class="tok-s1">&#39;shibd&#39;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You should now be ready to start the Apache HTTP server:</p>
+<p>If that succeeds, you are now ready to (re)start the Apache HTTP server:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1671,7 +1689,7 @@ sudo rsync --archive --backup --itemize-changes --no-owner --no-group --relative
 <h2 id="_checking_saml_metadata_about_your_sp">6. Checking SAML metadata about your SP</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Do a check whether the SAML metadata about your SP being generated by the Metadata Generator handler is of the desired quality, by opening the URL 'https://test-sp.clarin.eu/Shibboleth.sso/Metadata' in your XML editor. In case anything is wrong, follow the previous steps in <a href="#_creating_saml_metadata_about_your_sp_for_external_distribution">Creating SAML metadata about your SP for external distribution</a> again (without necessarily starting over).</p>
+<p>Do a check whether the SAML metadata about your SP being generated by the Metadata Generator handler is of the desired quality, by opening the URL <a href="https://test-sp.clarin.eu/Shibboleth.sso/Metadata" class="bare">https://test-sp.clarin.eu/Shibboleth.sso/Metadata</a> in your XML editor. In case anything is wrong, follow the previous steps in <a href="#_creating_saml_metadata_about_your_sp_for_external_distribution">Creating SAML metadata about your SP for external distribution</a> again (without necessarily starting over completely).</p>
 </div>
 </div>
 </div>
@@ -1683,7 +1701,7 @@ sudo rsync --archive --backup --itemize-changes --no-owner --no-group --relative
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">curl --insecure <span class="tok-s1">&#39;https://test-sp.clarin.eu/my_resource.txt&#39;</span></code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">curl --insecure 'https://test-sp.clarin.eu/my_resource.txt'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1697,7 +1715,7 @@ sudo rsync --archive --backup --itemize-changes --no-owner --no-group --relative
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-06-02 16:32:28 CEST
+Last updated 2015-06-05 17:59:07 CEST
 </div>
 </div>
 </body>

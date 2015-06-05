@@ -15,14 +15,14 @@
             checkAddress="true"
             handlerSSL="true"
             cookieProps="https">
-            <Logout>SAML2 Local</Logout>
-            <!-- CLARIN central discovery service (DiscoJuice) -->
             <!-- # tag::SSO[] -->
+            <!-- CLARIN central discovery service (DiscoJuice) -->
             <SSO
                 discoveryProtocol="SAMLDS"
                 discoveryURL="https://discovery.clarin.eu/discojuice">
                 SAML2
             </SSO>
+            <Logout>SAML2 Local</Logout>
             <!-- # end::SSO[] -->
             <!-- # tag::MetadataGenerator[] -->
             <Handler
@@ -48,20 +48,29 @@
             helpLocation="/about.html"
             styleSheet="/shibboleth-sp/main.css"/>
         <!-- # tag::MetadataProvider[] -->
-        <MetadataProvider type="Chaining">
+        <MetadataProvider
+            xmlns:xi="http://www.w3.org/2001/XInclude"
+            type="Chaining">
             <!-- SAML metadata about all contracted identity federations' production IdPs. -->
             <MetadataProvider
                 type="XML"
                 uri="https://infra.clarin.eu/aai/prod_md_about_spf_idps.xml"
                 backingFilePath="prod_md_about_spf_idps.xml"
-                reloadInterval="7200"/>
+                reloadInterval="7200">
+                <!-- # tag::MetadataFilter[] -->
+                <MetadataFilter
+                    xmlns="urn:mace:shibboleth:2.0:native:sp:config"
+                    type="Blacklist">
+                    <Exclude>https://openidp.aco.net/saml</Exclude>
+                </MetadataFilter>
+                <!-- # tag::MetadataFilter[] -->
+            </MetadataProvider>
             <!-- SAML metadata about the CLARIN IdP. -->
             <MetadataProvider
                 type="XML"
                 uri="https://infra.clarin.eu/aai/prod_md_about_clarin_erics_idp.xml"
                 backingFilePath="prod_md_about_clarin_erics_idp.xml"
                 reloadInterval="7200"/>
-            </MetadataProvider>
         </MetadataProvider>
         <!-- # end::MetadataProvider[] -->
         <AttributeExtractor
