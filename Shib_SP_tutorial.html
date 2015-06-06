@@ -507,7 +507,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_configuring_the_shibboleth_service_provider">4. Configuring the Shibboleth Service Provider</a>
 <ul class="sectlevel2">
-<li><a href="#_revising_the_main_configuration_file">4.1. Revising the main configuration file</a>
+<li><a href="#_the_main_configuration_file">4.1. The main configuration file</a>
 <ul class="sectlevel3">
 <li><a href="#_setting_your_sp_s_unique_name">4.1.1. Setting your SP&#8217;s unique name</a></li>
 <li><a href="#_securing_connections">4.1.2. Securing connections</a></li>
@@ -571,9 +571,10 @@ cat ~/<span class="tok-s1">&#39;.ssh/Your_Google_Name@test-sp.clarin.eu.pub&#39;
 <p>Now copy and paste your SSH public key, which is now displayed as a result of the last <code>cat</code> command, key into <a href="https://cloud.google.com/compute/docs/console#sshkeys">your GCE configuration</a>.</p>
 </div>
 <div class="paragraph">
-<p>In order to work with the VM from your own command line instead of the web terminal, prepend the following snippet to the contents of <code>~/.ssh/config</code>:</p>
+<p>In order to work with the VM from your own command line instead of the web terminal, prepend the following snippet:</p>
 </div>
 <div class="listingblock">
+<div class="title">~/.ssh/config</div>
 <div class="content">
 <pre class="pygments highlight"><code>Match originalhost test-sp
     Hostname test-sp.clarin.eu
@@ -717,10 +718,8 @@ I will not repeat the command suggested above to edit a text file as superuser, 
 <div class="paragraph">
 <p>If SELinux is enabled, and it is by default on Red Hat 7, please stop it from enforcing policies. <a href="https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSELinux">Shibboleth urges us to do this</a>, as SELinux has a hard-to-grasp impact and is even claimed to break Shibboleth SP.</p>
 </div>
-<div class="paragraph">
-<p>Editing <code>/etc/selinux/config</code> to this effect:</p>
-</div>
 <div class="listingblock">
+<div class="title">/etc/selinux/config</div>
 <div class="content">
 <pre class="pygments highlight"><code># This file controls the state of SELinux on the system.
 # SELINUX= can take one of these three values:
@@ -757,7 +756,7 @@ To start out with, you can copy a template Virtual Host configuration file into 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">sudo cp --archive -v '/usr/share/doc/httpd-2.4.6/httpd-vhosts.conf' '/etc/httpd/conf.d/test-sp.clarin.eu.conf'</code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">sudo cp --archive -v <span class="tok-s1">&#39;/usr/share/doc/httpd-2.4.6/httpd-vhosts.conf&#39;</span> <span class="tok-s1">&#39;/etc/httpd/conf.d/test-sp.clarin.eu.conf&#39;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -775,9 +774,10 @@ To start out with, you can copy a template Virtual Host configuration file into 
 <p>Comment out the <code>Listen</code> directive in <code>'/etc/httpd/conf/httpd.conf'</code>, because you will want to keep this directive more clearly coupled to the Virtual Host by putting it in the same file as the Virtual Host configuration.</p>
 </div>
 <div class="paragraph">
-<p>In <code>'/etc/httpd/conf.d/shib.conf'</code>, comment out the <code>Location</code> directive for <code>'/secure'</code>:</p>
+<p>Comment out the <code>Location</code> directive for <code>'/secure'</code></p>
 </div>
 <div class="listingblock">
+<div class="title">/etc/httpd/conf.d/shib.conf</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="Apache"><span class="tok-c">#&lt;Location /secure&gt;</span>
 <span class="tok-c">#  AuthType shibboleth</span>
@@ -798,9 +798,10 @@ To start out with, you can copy a template Virtual Host configuration file into 
 </div>
 </div>
 <div class="paragraph">
-<p>And fill <code>'/etc/httpd/conf.d/0_TLS_generic.conf'</code> with e.g.:</p>
+<p>And create</p>
 </div>
 <div class="listingblock">
+<div class="title">/etc/httpd/conf.d/0_TLS_generic.conf</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="Apache"><span class="tok-nb">SSLPassPhraseDialog</span> exec:/usr/libexec/httpd-ssl-pass-dialog
 
@@ -862,9 +863,10 @@ The contents of this helper configuration file are simply based on Red Hat 7&#82
 </table>
 </div>
 <div class="paragraph">
-<p>The Virtual Host configuration for your SP should now come at <code>'/etc/httpd/conf.d/test-sp.clarin.eu.conf'</code>:</p>
+<p>An example Virtual Host configuration for your SP:</p>
 </div>
 <div class="listingblock">
+<div class="title">/etc/httpd/conf.d/test-sp.clarin.eu.conf</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="Apache"><span class="tok-nb">Listen</span> <span class="tok-m">443</span> https
 
@@ -916,10 +918,10 @@ sudo chcon --recursive --type httpd_used_content_t <span class="tok-s1">&#39;/sr
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">(cd '/srv/www/test-sp.clarin.eu/' &&
-sudo mkdir -v 'protected/' &&
-printf '%s\n' 'This is a protected resource.' | sudo tee 'protected/my_resource.txt' &&
-printf '%s\n' 'This is an unprotected resource.' | sudo tee 'my_resource.txt')</code></pre>
+<pre class="pygments highlight"><code data-lang="Sh"><span class="tok-o">(</span><span class="tok-nb">cd</span> <span class="tok-s1">&#39;/srv/www/test-sp.clarin.eu/&#39;</span> <span class="tok-o">&amp;&amp;</span>
+sudo mkdir -v <span class="tok-s1">&#39;protected/&#39;</span> <span class="tok-o">&amp;&amp;</span>
+<span class="tok-nb">printf</span> <span class="tok-s1">&#39;%s\n&#39;</span> <span class="tok-s1">&#39;This is a protected resource.&#39;</span> <span class="tok-p">|</span> sudo tee <span class="tok-s1">&#39;protected/my_resource.txt&#39;</span> <span class="tok-o">&amp;&amp;</span>
+<span class="tok-nb">printf</span> <span class="tok-s1">&#39;%s\n&#39;</span> <span class="tok-s1">&#39;This is an unprotected resource.&#39;</span> <span class="tok-p">|</span> sudo tee <span class="tok-s1">&#39;my_resource.txt&#39;</span><span class="tok-o">)</span></code></pre>
 </div>
 </div>
 </div>
@@ -945,20 +947,20 @@ An important source of service-disrupting errors in XML configuration files is i
 </table>
 </div>
 <div class="sect2">
-<h3 id="_revising_the_main_configuration_file">4.1. Revising the main configuration file</h3>
+<h3 id="_the_main_configuration_file">4.1. The main configuration file</h3>
 <div class="paragraph">
 <p>Now on your workstation, issue:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">mkdir ~/'test-sp/' ;
-(cd ~/'test-sp/' &&
-rsync --archive --backup --itemize-changes --no-owner --no-group --relative --update -v 'test-sp:/etc/shibboleth/' .)</code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">mkdir ~/<span class="tok-s1">&#39;test-sp/&#39;</span> <span class="tok-p">;</span>
+<span class="tok-o">(</span><span class="tok-nb">cd</span> ~/<span class="tok-s1">&#39;test-sp/&#39;</span> <span class="tok-o">&amp;&amp;</span>
+rsync --archive --backup --itemize-changes --no-owner --no-group --relative --update -v <span class="tok-s1">&#39;test-sp:/etc/shibboleth/&#39;</span> .<span class="tok-o">)</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Open up your XML editor and open the file <code>~/'test-sp/etc/shibboleth/shibboleth2.xml'</code>.
-A few positions in this XML document (pointed to by the following XPath expressions) should be changed to get a basic working configuration.</p>
+A few positions in this XML document (pointed to by XPath expressions) should be changed to get a basic working configuration.</p>
 </div>
 <div class="sect3">
 <h4 id="_setting_your_sp_s_unique_name">4.1.1. Setting your SP&#8217;s unique name</h4>
@@ -968,15 +970,8 @@ A few positions in this XML document (pointed to by the following XPath expressi
 <div class="ulist">
 <ul>
 <li>
-<p>Set:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="XPath">/conf:SPConfig/conf:ApplicationDefaults[1]/@entityID</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>to e.g. <code>https://test-sp.clarin.eu/shibboleth</code>.</p>
-</div>
+<p>Set <code>/conf:SPConfig/conf:ApplicationDefaults[1]/@entityID</code>
+to e.g. <code>https://test-sp.clarin.eu/shibboleth</code>.</p>
 </li>
 </ul>
 </div>
@@ -1001,27 +996,11 @@ This looks like a URL, but it is a URI and basically <a href="https://wiki.shibb
 <div class="ulist">
 <ul>
 <li>
-<p>Set</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="XPath">/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/@handlerSSL |
-/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/@checkAddress</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>to <code>true</code>.</p>
-</div>
+<p>Set <code>/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/@handlerSSL |
+/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/@checkAddress</code> to <code>true</code>.</p>
 </li>
 <li>
-<p>Set</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="XPath">/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/@cookieProps</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>to <code>https</code>.</p>
-</div>
+<p>Set <code>/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/@cookieProps</code> to <code>https</code>.</p>
 </li>
 </ul>
 </div>
@@ -1034,16 +1013,9 @@ This looks like a URL, but it is a URI and basically <a href="https://wiki.shibb
 <div class="ulist">
 <ul>
 <li>
-<p>This setting&#8201;&#8212;&#8201;which is SPF-specific&#8201;&#8212;&#8201;is at</p>
+<p>This setting&#8201;&#8212;&#8201;which is SPF-specific&#8201;&#8212;&#8201;is at <code>/conf:SPConfig/conf:ApplicationDefaults[1]/conf:MetadataProvider[1]</code>. What to put here is briefly described at <a href="http://www.clarin.eu/content/creating-and-testing-shibboleth-sp" class="bare">http://www.clarin.eu/content/creating-and-testing-shibboleth-sp</a>. Which IdPs the two SAML metadata batches referred to in the snippet are about is described at <a href="http://www.clarin.eu/content/where-do-i-find-saml-metadata-identity-federations" class="bare">http://www.clarin.eu/content/where-do-i-find-saml-metadata-identity-federations</a>. All in all, you will end up with the following snippet:</p>
 <div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="XPath">/conf:SPConfig/conf:ApplicationDefaults[1]/conf:MetadataProvider[1]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>What to put here is briefly described at <a href="http://www.clarin.eu/content/creating-and-testing-shibboleth-sp" class="bare">http://www.clarin.eu/content/creating-and-testing-shibboleth-sp</a>. Which IdPs the two SAML metadata batches referred to in the snippet are about is described at <a href="http://www.clarin.eu/content/where-do-i-find-saml-metadata-identity-federations" class="bare">http://www.clarin.eu/content/where-do-i-find-saml-metadata-identity-federations</a>. All in all, you will end up with the following snippet:</p>
-</div>
-<div class="listingblock">
+<div class="title">~/test-sp/etc/shibboleth/shibboleth2.xml</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="XML"><span class="tok-nt">&lt;MetadataProvider</span>
     <span class="tok-na">xmlns:xi=</span><span class="tok-s">&quot;http://www.w3.org/2001/XInclude&quot;</span>
@@ -1081,16 +1053,9 @@ This looks like a URL, but it is a URI and basically <a href="https://wiki.shibb
 <div class="ulist">
 <ul>
 <li>
-<p>Replace the</p>
+<p>Replace the <code>/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/conf:SSO[1]</code> element with the snippet at <a href="https://www.clarin.eu/node/3481">CLARIN central Discovery Service</a>:</p>
 <div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="XPath">/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/conf:SSO[1]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>element with the snippet at <a href="https://www.clarin.eu/node/3481">CLARIN central discovery service</a>:</p>
-</div>
-<div class="listingblock">
+<div class="title">~/test-sp/etc/shibboleth/shibboleth2.xml</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="XML"><span class="tok-c">&lt;!-- CLARIN central discovery service (DiscoJuice) --&gt;</span>
 <span class="tok-nt">&lt;SSO</span>
@@ -1112,15 +1077,7 @@ This looks like a URL, but it is a URI and basically <a href="https://wiki.shibb
 <div class="ulist">
 <ul>
 <li>
-<p>Change</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="Xpath">/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Errors[1]/@supportContact</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>to an appropriate e-mail-address.</p>
-</div>
+<p>Change <code>/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Errors[1]/@supportContact</code> to an appropriate e-mail-address.</p>
 </li>
 </ul>
 </div>
@@ -1131,17 +1088,10 @@ This looks like a URL, but it is a URI and basically <a href="https://wiki.shibb
 <div class="sect3">
 <h4 id="_saml_metadata_template">4.1.6. SAML metadata template</h4>
 <div class="paragraph">
-<p>You must create SAML metadata that describes your SP. This will be discussed in <a href="#_creating_saml_metadata_about_your_sp_for_external_distribution">Creating SAML metadata about your SP for external distribution</a>. For now, to configure an initial quasi SAML metadata file as template for the Metadata Generator handler, edit in <code>shibboleth2.xml</code> at:</p>
+<p>You must create SAML metadata that describes your SP. This will be discussed in <a href="#_creating_saml_metadata_about_your_sp_for_external_distribution">Creating SAML metadata about your SP for external distribution</a>. For now, configure an initial quasi SAML metadata file as template for the Metadata Generator handler at <code>/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/conf:Handler[@type='MetadataGenerator']</code>, substituting the element with:</p>
 </div>
 <div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="XPath">/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/conf:Handler[@type=&#39;MetadataGenerator&#39;]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>by replacing this element with:</p>
-</div>
-<div class="listingblock">
+<div class="title">~/test-sp/etc/shibboleth/shibboleth2.xml</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="XML"><span class="tok-nt">&lt;Handler</span>
     <span class="tok-na">type=</span><span class="tok-s">&quot;MetadataGenerator&quot;</span>
@@ -1169,9 +1119,10 @@ Configuration is not documentation and any documentation you leave in now may be
 </table>
 </div>
 <div class="paragraph">
-<p>If you have completed the previous sections successfully, you will now have a <code>shibboleth2.xml</code> similar in content to:</p>
+<p>If you have completed the previous sections successfully, you now have about this main configuration:</p>
 </div>
 <div class="listingblock">
+<div class="title">~/test-sp/etc/shibboleth/shibboleth2.xml</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="XML"><span class="tok-nt">&lt;SPConfig</span>
     <span class="tok-na">xmlns=</span><span class="tok-s">&quot;urn:mace:shibboleth:2.0:native:sp:config&quot;</span>
@@ -1312,13 +1263,13 @@ The most <strong>relevant</strong> two are:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">mkdir --mode=u=rwx,go= '/root/keys/' ;
-cd '/root/keys/' &&
-command -p openssl req -new -x509 -nodes -newkey rsa:2048 -keyout 'test-sp.clarin.eu.private-key.pem' -days 3650 -subj '/CN=test-sp.clarin.eu' -out 'test-sp.clarin.eu.crt' &&
-chown shibd:shibd 'test-sp.clarin.eu.private-key.pem' 'test-sp.clarin.eu.crt' &&
-ln --force -v '/root/keys/test-sp.clarin.eu.private-key.pem' '/etc/shibboleth/sp-key.pem' &&
-ln --force -v '/root/keys/test-sp.clarin.eu.crt' '/etc/shibboleth/sp-cert.pem' &&
-exit</code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">mkdir --mode<span class="tok-o">=</span><span class="tok-nv">u</span><span class="tok-o">=</span>rwx,go<span class="tok-o">=</span> <span class="tok-s1">&#39;/root/keys/&#39;</span> <span class="tok-p">;</span>
+<span class="tok-nb">cd</span> <span class="tok-s1">&#39;/root/keys/&#39;</span> <span class="tok-o">&amp;&amp;</span>
+<span class="tok-nb">command</span> -p openssl req -new -x509 -nodes -newkey rsa:2048 -keyout <span class="tok-s1">&#39;test-sp.clarin.eu.private-key.pem&#39;</span> -days <span class="tok-m">3650</span> -subj <span class="tok-s1">&#39;/CN=test-sp.clarin.eu&#39;</span> -out <span class="tok-s1">&#39;test-sp.clarin.eu.crt&#39;</span> <span class="tok-o">&amp;&amp;</span>
+chown shibd:shibd <span class="tok-s1">&#39;test-sp.clarin.eu.private-key.pem&#39;</span> <span class="tok-s1">&#39;test-sp.clarin.eu.crt&#39;</span> <span class="tok-o">&amp;&amp;</span>
+ln --force -v <span class="tok-s1">&#39;/root/keys/test-sp.clarin.eu.private-key.pem&#39;</span> <span class="tok-s1">&#39;/etc/shibboleth/sp-key.pem&#39;</span> <span class="tok-o">&amp;&amp;</span>
+ln --force -v <span class="tok-s1">&#39;/root/keys/test-sp.clarin.eu.crt&#39;</span> <span class="tok-s1">&#39;/etc/shibboleth/sp-cert.pem&#39;</span> <span class="tok-o">&amp;&amp;</span>
+<span class="tok-nb">exit</span></code></pre>
 </div>
 </div>
 </div>
@@ -1364,15 +1315,9 @@ svn checkout <span class="tok-s1">&#39;https://svn.clarin.eu/aai/&#39;</span><sp
 <p>Copy this <code>md:EntityDescriptor</code> element into a new XML file in your XML editor.</p>
 </li>
 <li>
-<p>Fetch the original SAML metadata about your SP being generated by the Metadata Generator handler by opening <a href="https://test-sp.clarin.eu/Shibboleth.sso/Metadata" class="bare">https://test-sp.clarin.eu/Shibboleth.sso/Metadata</a> in your XML editor.</p>
-</li>
-<li>
-<p>Modify the new XML file to describe <em>your</em> SP instead.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Remove all comments and leaf elements from <code>'test-sp.clarin.eu.template.metadata.xml'</code> insofar they are already in <a href="https://test-sp.clarin.eu/Shibboleth.sso/Metadata" class="bare">https://test-sp.clarin.eu/Shibboleth.sso/Metadata</a>. For example, the original:</p>
+<p>Optionally, fetch the original SAML metadata about your SP that is being generated automatically by the Metadata Generator handler by opening its default URL in XML editor.</p>
 <div class="listingblock">
+<div class="title"><a href="https://test-sp.clarin.eu/Shibboleth.sso/Metadata" class="bare">https://test-sp.clarin.eu/Shibboleth.sso/Metadata</a></div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="XML"><span class="tok-c">&lt;!--</span>
 <span class="tok-c">This is example metadata only. Do *NOT* supply it as is without review,</span>
@@ -1512,9 +1457,13 @@ IOqaoamtxfvZUX+kqadp
 </div>
 </div>
 <div class="paragraph">
-<p>will lead you to a template such as:</p>
+<p>This gives a picture of what bare example SAML metadata about your SP looks like.</p>
 </div>
+</li>
+<li>
+<p>Now create a template file like the following:</p>
 <div class="listingblock">
+<div class="title">~/test-sp/etc/shibboleth/test-sp.clarin.eu.template.metadata.xml</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="XML"><span class="tok-cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="tok-nt">&lt;md:EntityDescriptor</span>
@@ -1601,18 +1550,18 @@ IOqaoamtxfvZUX+kqadp
 <span class="tok-nt">&lt;/md:EntityDescriptor&gt;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>The previous listing is basically a stripped-down version with regards to all dynamic/automatically generated elements in <a href="https://test-sp.clarin.eu/Shibboleth.sso/Metadata" class="bare">https://test-sp.clarin.eu/Shibboleth.sso/Metadata</a>.</p>
+</div>
 </li>
 <li>
 <p>Save the file.</p>
 </li>
-</ol>
-</div>
+<li>
+<p>Add the contents of the previously saved <code>~/test-sp/etc/shibboleth/test-sp.clarin.eu.template.metadata.xml</code> as an element under <code>/md:EntitiesDescriptor</code> in <code>~/'CLARIN/SVN/parts/aai/clarin-sp-metadata.xml'</code>. Save the latter file.</p>
 </li>
 <li>
-<p>Add the contents (again, the <code>md:EntityDescriptor</code>) of the previously saved <code>'test-sp.clarin.eu.template.metadata.xml'</code> as an element under <code>/md:EntitiesDescriptor</code> in your checked out version of <code>'clarin-sp-metadata.xml'</code>. Save the latter file.</p>
-</li>
-<li>
-<p>Validate the file with your XML editor and the appropriate XML catalog of XSD schemas, or alternatively using the accompanying command line utility <code>'check_saml_metadata.sh'</code>.</p>
+<p>Validate the file with your XML editor and the appropriate XML catalog of XSD schemas, or alternatively using the accompanying command line utility <code>~/'CLARIN/SVN/parts/aai/check_saml_metadata.sh'</code>.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="Sh"><span class="tok-o">(</span><span class="tok-nb">cd</span> ~/<span class="tok-s1">&#39;CLARIN/SVN/parts/aai/&#39;</span> <span class="tok-o">&amp;&amp;</span>
@@ -1639,8 +1588,8 @@ svn commit <span class="tok-s1">&#39;clarin-sp-metadata.xml&#39;</span><span cla
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">(cd ~/test-sp/etc/shibboleth/ &&
-rsync --archive --backup --itemize-changes --no-owner --no-group --relative --update -v '.' 'test-sp:shibboleth')</code></pre>
+<pre class="pygments highlight"><code data-lang="Sh"><span class="tok-o">(</span><span class="tok-nb">cd</span> ~/<span class="tok-o">{</span>sp-hostname<span class="tok-o">}</span>/etc/shibboleth/ <span class="tok-o">&amp;&amp;</span>
+rsync --archive --backup --itemize-changes --no-owner --no-group --relative --update -v <span class="tok-s1">&#39;.&#39;</span> <span class="tok-s1">&#39;test-sp:shibboleth&#39;</span><span class="tok-o">)</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1700,21 +1649,21 @@ sudo rsync --archive --backup --itemize-changes --no-owner --no-group --relative
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">curl --insecure 'https://test-sp.clarin.eu/my_resource.txt'</code></pre>
+<pre class="pygments highlight"><code data-lang="Sh">curl --insecure <span class="tok-s1">&#39;https://test-sp.clarin.eu/my_resource.txt&#39;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>You should see the contents of your unprotected resource now.</p>
 </div>
 <div class="paragraph">
-<p>By visiting <a href="https://test-sp.clarin.eu/my_resource.txt" class="bare">https://test-sp.clarin.eu/my_resource.txt</a> and <a href="https://test-sp.clarin.eu/protected/my_resource.txt" class="bare">https://test-sp.clarin.eu/protected/my_resource.txt</a>, you will see that the one resource is freely accessible, whereas the other only after going through the CLARIN central discovery service and selecting the CLARIN IdP.</p>
+<p>By visiting <a href="https://test-sp.clarin.eu/my_resource.txt" class="bare">https://test-sp.clarin.eu/my_resource.txt</a> and <a href="https://test-sp.clarin.eu/protected/my_resource.txt" class="bare">https://test-sp.clarin.eu/protected/my_resource.txt</a>, you will see that the one resource is freely accessible, whereas the other only after going through the CLARIN central DS and selecting the CLARIN IdP.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-06-05 18:05:35 CEST
+Last updated 2015-06-06 17:27:12 CEST
 </div>
 </div>
 </body>
