@@ -646,16 +646,18 @@ sudo curl -v --location --remote-name <span class="tok-s1">&#39;http://download.
 </div>
 </div>
 <div class="paragraph">
-<p>Optionally, make sure your OS can find current versions of other software packages, which is critical if you e.g. wish to host a Python web application:</p>
+<p>Optionally, make sure your OS can find current versions of other software packages, which is critical if you e.g. wish to host a Python web application. Visit <a href="https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/repoview/ius-release.html">the IUS download page</a> to determine the current release version and URL. In the following I assume CentOS 7 on the x86_64 platform:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="Sh">sudo yum install <span class="tok-s1">&#39;epel-release&#39;</span> <span class="tok-o">&amp;&amp;</span>
-sudo mkdir <span class="tok-s1">&#39;/srv/installers/&#39;</span> <span class="tok-o">&amp;&amp;</span>
+<pre class="pygments highlight"><code data-lang="Sh">sudo mkdir <span class="tok-s1">&#39;/srv/installers/&#39;</span> <span class="tok-p">;</span>
 <span class="tok-o">(</span><span class="tok-nb">cd</span> <span class="tok-s1">&#39;/srv/installers/&#39;</span> <span class="tok-o">&amp;&amp;</span>
-sudo curl -v --location --remote-name <span class="tok-s1">&#39;https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-13.ius.centos7.noarch.rpm&#39;</span> <span class="tok-o">&amp;&amp;</span>
-sudo rpm --hash --upgrade -v <span class="tok-s1">&#39;ius-release-1.0-13.ius.centos7.noarch.rpm&#39;</span> <span class="tok-o">&amp;&amp;</span>
-sudo rm <span class="tok-s1">&#39;ius-release-1.0-13.ius.centos7.noarch.rpm&#39;</span><span class="tok-o">)</span></code></pre>
+current-ius_release_file_name<span class="tok-o">=</span><span class="tok-s1">&#39;ius-release-1.0-14.ius.centos7.noarch.rpm&#39;</span> <span class="tok-o">&amp;&amp;</span>
+<span class="tok-nv">current_ius_release_url</span><span class="tok-o">=</span><span class="tok-s1">&#39;https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/&#39;</span><span class="tok-s2">&quot;${current-ius_release_file_name}&quot;</span> <span class="tok-o">&amp;&amp;</span>
+sudo curl -v --fail --header <span class="tok-s1">&#39;Accept: application/x-rpm&#39;</span> --location --remote-name  <span class="tok-o">&amp;&amp;</span>
+sudo yum install <span class="tok-s1">&#39;epel-release&#39;</span> <span class="tok-o">&amp;&amp;</span>
+sudo rpm --hash --upgrade -v <span class="tok-s1">&#39;ius-release-1.0-14.ius.centos7.noarch.rpm&#39;</span> <span class="tok-o">&amp;&amp;</span>
+sudo rm <span class="tok-s1">&#39;ius-release-1.0-14.ius.centos7.noarch.rpm&#39;</span><span class="tok-o">)</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1663,7 +1665,7 @@ sudo rsync --archive --backup --itemize-changes --no-owner --no-group --relative
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-06-06 17:27:12 CEST
+Last updated 2015-06-15 15:04:29 CEST
 </div>
 </div>
 </body>
