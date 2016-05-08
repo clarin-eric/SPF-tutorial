@@ -5,6 +5,9 @@
     xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
     xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
     clockSkew="180">
+    <!-- # tag::TCPListener[] -->
+    <!-- ... -->
+    <!-- # end::TCPListener[] -->
     <ApplicationDefaults
         entityID="https://test-sp.clarin.eu/shibboleth"
         REMOTE_USER="eppn persistent-id targeted-id">
