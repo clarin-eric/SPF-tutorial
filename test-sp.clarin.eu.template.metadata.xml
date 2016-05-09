@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <md:EntityDescriptor
-    entityID="https://test-sp.clarin.eu"
+    entityID="https://test-sp.clarin.eu/shibboleth"
     xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata">
     <md:Extensions>
         <mdattr:EntityAttributes

@@ -154,7 +154,7 @@ T2gqtdYAz6JrLxQWA6LhxUpEwYZXDs/fov0esmJGYFmQy2RINK3d0fuYYlcBdA==
             <md:EncryptionMethod
                 Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p"/>
         </md:KeyDescriptor>
-       <md:AssertionConsumerService
+        <md:AssertionConsumerService
             Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
             Location="https://resource_a.clarin.eu/Shibboleth.sso/SAML2/POST"
             index="1"/>
@@ -170,7 +170,7 @@ T2gqtdYAz6JrLxQWA6LhxUpEwYZXDs/fov0esmJGYFmQy2RINK3d0fuYYlcBdA==
             Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS"
             Location="https://resource_a.clarin.eu/Shibboleth.sso/SAML2/ECP"
             index="4"/>
-        
+
         <md:AssertionConsumerService
             Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
             Location="https://web_app_b.clarin.eu/Shibboleth.sso/SAML2/POST"
@@ -187,7 +187,7 @@ T2gqtdYAz6JrLxQWA6LhxUpEwYZXDs/fov0esmJGYFmQy2RINK3d0fuYYlcBdA==
             Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS"
             Location="https://web_app_b.clarin.eu/Shibboleth.sso/SAML2/ECP"
             index="8"/>
-        
+
         <md:AssertionConsumerService
             Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
             Location="https://test-sp.clarin.eu/Shibboleth.sso/SAML2/POST"
