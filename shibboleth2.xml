@@ -58,7 +58,7 @@
             <MetadataProvider
                 type="XML"
                 uri="https://infra.clarin.eu/aai/prod_md_about_spf_idps.xml"
-                backingFilePath="../../var/run/shibboleth/prod_md_about_spf_idps.xml"
+                backingFilePath="prod_md_about_spf_idps.xml"
                 reloadInterval="7200">
                 <!-- # tag::MetadataFilter[] -->
                 <MetadataFilter
