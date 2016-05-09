@@ -59,8 +59,7 @@
                 type="XML"
                 uri="https://infra.clarin.eu/aai/prod_md_about_spf_idps.xml"
                 backingFilePath="../../var/run/shibboleth/prod_md_about_spf_idps.xml"
-                reloadInterval="7200"
-                certificate="SPF_signing_pub.crt">
+                reloadInterval="7200">
                 <!-- # tag::MetadataFilter[] -->
                 <MetadataFilter
                     xmlns="urn:mace:shibboleth:2.0:native:sp:config"
@@ -74,8 +73,7 @@
                 type="XML"
                 uri="https://infra.clarin.eu/aai/prod_md_about_clarin_erics_idp.xml"
                 backingFilePath="prod_md_about_clarin_erics_idp.xml"
-                reloadInterval="7200"
-                certificate="SPF_signing_pub.crt"/>
+                reloadInterval="7200"/>
         </MetadataProvider>
         <!-- # end::MetadataProvider[] -->
         <AttributeExtractor
