@@ -1,49 +1,105 @@
-<!--
-This is example metadata only. Do *NOT* supply it as is without review,
-and do *NOT* provide it in real time to your partners.
- -->
 <md:EntityDescriptor
     xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
     ID="_138cfa3369070d4d44bda0e9346e9358ffe96dcf"
     entityID="https://test-sp.clarin.eu/shibboleth">
-    <md:Extensions
-        xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport">
+    <md:Extensions>
+        <mdattr:EntityAttributes
+            xmlns:mdattr="urn:oasis:names:tc:SAML:metadata:attribute">
+            <saml:Attribute
+                xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                Name="http://macedir.org/entity-category"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+                <saml:AttributeValue>http://www.geant.net/uri/dataprotection-code-of-conduct/v1</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute
+                xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                Name="http://macedir.org/entity-category"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+                <saml:AttributeValue>http://refeds.org/category/research-and-scholarship</saml:AttributeValue>
+            </saml:Attribute>
+        </mdattr:EntityAttributes>
         <alg:DigestMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmlenc#sha512"/>
         <alg:DigestMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#sha384"/>
         <alg:DigestMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
         <alg:DigestMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#sha224"/>
         <alg:DigestMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha384"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha224"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha512"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha384"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2009/xmldsig11#dsa-sha256"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha1"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
         <alg:SigningMethod
+            xmlns:alg="urn:oasis:names:tc:SAML:metadata:algsupport"
             Algorithm="http://www.w3.org/2000/09/xmldsig#dsa-sha1"/>
     </md:Extensions>
     <md:SPSSODescriptor
         protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
         <md:Extensions>
+            <mdui:UIInfo
+                xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">
+                <mdui:DisplayName
+                    xml:lang="en">CLARIN - test-sp</mdui:DisplayName>
+                <mdui:Description
+                    xml:lang="en">For resource A and web application B.</mdui:Description>
+                <mdui:DisplayName
+                    xml:lang="de">CLARIN - test-sp</mdui:DisplayName>
+                <mdui:Description
+                    xml:lang="de">Für Ressource A und Webanwendung B.</mdui:Description>
+                <mdui:DisplayName
+                    xml:lang="fi">CLARIN - test-sp</mdui:DisplayName>
+                <mdui:Description
+                    xml:lang="fi">Resurssien A ja web-sovelluksen B.</mdui:Description>
+                <mdui:DisplayName
+                    xml:lang="nl">CLARIN - test-sp</mdui:DisplayName>
+                <mdui:Description
+                    xml:lang="nl">Voor materiaal A en webapplicatie B.</mdui:Description>
+                <mdui:InformationURL
+                    xml:lang="en">https://www.clarin.eu/applications</mdui:InformationURL>
+                <mdui:Logo
+                    height="220"
+                    width="195">https://www.clarin.eu/sites/default/files/clarin-logo.png</mdui:Logo>
+                <mdui:Keywords
+                    xml:lang="en">CLARIN test-sp resource+A A B</mdui:Keywords>
+                <mdui:Keywords
+                    xml:lang="nl">CLARIN test-sp materiaal+A A B</mdui:Keywords>
+                <mdui:PrivacyStatementURL
+                    xml:lang="en">https://catalog.clarin.eu/privacy_statement.xhtml</mdui:PrivacyStatementURL>
+            </mdui:UIInfo>
             <init:RequestInitiator
                 xmlns:init="urn:oasis:names:tc:SAML:profiles:SSO:request-init"
                 Binding="urn:oasis:names:tc:SAML:profiles:SSO:request-init"
@@ -60,23 +116,22 @@ and do *NOT* provide it in real time to your partners.
                 <ds:KeyName>test-sp.clarin.eu</ds:KeyName>
                 <ds:X509Data>
                     <ds:X509SubjectName>CN=test-sp.clarin.eu</ds:X509SubjectName>
-                    <ds:X509Certificate>MIIDCzCCAfOgAwIBAgIJAM2NOO8oMnUkMA0GCSqGSIb3DQEBCwUAMBwxGjAYBgNV
-BAMMEXRlc3Qtc3AuY2xhcmluLmV1MB4XDTE1MDUyNzIzMTkxN1oXDTI1MDUyNDIz
-MTkxN1owHDEaMBgGA1UEAwwRdGVzdC1zcC5jbGFyaW4uZXUwggEiMA0GCSqGSIb3
-DQEBAQUAA4IBDwAwggEKAoIBAQDIg6d/kImqZvNQ1AxTUz91soooTRZc2abp/q+h
-ZXxHO+ISNX0Tby64NRvBAtx2m2rANpsaaECJvajImU1GKdxDC8li1iKN9EFilgkQ
-60oxhzXHhHZVmYMnlExlX9a8xwzOglxCVAT8i38oN3jecWFzSyrobo8NlquGV1cZ
-Fqxfo27tgtkSpe+S84s6bfiKs58PldbV+HiGL0vKCysWszun/a82Bkn4adfdytOG
-P+z/lTZXi7kP8GSx1nF+kY+YIS6ZOSobTxewMj7y0zl3nGwI2pW94eO5puzrpOau
-X08hJOOr+QV3SGk2r+/vC5xfaHaqBKQ4kFI4S9IiKwJQQEDXAgMBAAGjUDBOMB0G
-A1UdDgQWBBQQ6Ankuo0P3drITFbZzEIWCrYXczAfBgNVHSMEGDAWgBQQ6Ankuo0P
-3drITFbZzEIWCrYXczAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBF
-veGsCwxA6Ii2PRfuLlSh9C3staLv7w5GdzwhVQAPLB0+x5eAXqwtVo6Nwawk7MpA
-ulUDBWRInPi71lehXwWsFSBoUlckCGNmUUVD0d2ne0nHluO7VMdp5GqTtqk/qC1G
-NgPubfmzJgZS09A84hYEAmd6NwHfjpiezofC8vnx3tvzq8Mr+rsbTOhS12olqX3K
-Ll3oPeL4D9B6QCP8J5+H7GuJCtNKsrvKKzXIMxjRhjEb3/M/fFTl/t/6r1ShS1Q5
-5QLgW+AtrYi2RvxGt12xjwg9xQQlciiujykFFfoQWM1/y6nwSySilRbrYmbvwMMu
-IOqaoamtxfvZUX+kqadp
+                    <ds:X509Certificate>MIIC+jCCAeKgAwIBAgIJAJkhitxFsYVnMA0GCSqGSIb3DQEBBQUAMBwxGjAYBgNV
+BAMTEXRlc3Qtc3AuY2xhcmluLmV1MB4XDTE2MDUwOTEzMDA1OFoXDTI2MDUwNzEz
+MDA1OFowHDEaMBgGA1UEAxMRdGVzdC1zcC5jbGFyaW4uZXUwggEiMA0GCSqGSIb3
+DQEBAQUAA4IBDwAwggEKAoIBAQC/lmzXnE777dCFBCQMp9k1sUslFK28Wqa7DM4H
+12XtW72jx2pND0ABekjkZ0C7riQsmZzWtFsU4QV+6Rsd1zH7+AWA6qJZsN8qB9fp
+NFzx7bcLa2AFm7FTrIVJCQFdQo/VCkP3KpD3XZdpv/5LL2x768yU8HF8hj4tCmFP
+PlbgEFWk6OLS5dM/01WYOF1v1N2HEsCyRyTCWd5l6IS0JkGpTfmYNzbMNzY12PqR
+gNsZvUXAmTYIL2C8X4gyL8jB/GHKzKYQQqwJT7HTYqN+CMuI4iHJb334dmecZxp1
+zga8PUUlrThIyNrGE1k+Fmz6GW5TDTI491p0ujtRXxySbWtpAgMBAAGjPzA9MBwG
+A1UdEQQVMBOCEXRlc3Qtc3AuY2xhcmluLmV1MB0GA1UdDgQWBBR8s5mpkTIzqC7c
+jmeym0FkWyrAmTANBgkqhkiG9w0BAQUFAAOCAQEAVLtg4pTTt1SNcAcAGugRN5G2
+FaREVh7EQt96vZO9KVaiai9sv+AQVGHLxxRt55+XD9DMmPM8lfXOFU4frRxoq4J6
+ELGfHzIjHCnvV5z7KzeyUxbQsxi7QHkNCZlOLydysui9r48+Jtf1MMn1lj79CIm6
+YNek5szzW/WpibbQXB2wwebJtH5FlNxWEI+AW0CucOnsjE2KwXZ9zksZPdU4CDoo
+xYrORXAP/IOXeqjbjQt80RRIxYKB+uTMqatyVU6YjRDfRRj1GQRbe+KKqn9zDuJ/
+T2gqtdYAz6JrLxQWA6LhxUpEwYZXDs/fov0esmJGYFmQy2RINK3d0fuYYlcBdA==
 </ds:X509Certificate>
                 </ds:X509Data>
             </ds:KeyInfo>
@@ -99,37 +154,104 @@ IOqaoamtxfvZUX+kqadp
             <md:EncryptionMethod
                 Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p"/>
         </md:KeyDescriptor>
-        <md:ArtifactResolutionService
-            Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP"
-            Location="https://test-sp.clarin.eu/Shibboleth.sso/Artifact/SOAP"
-            index="1"/>
-        <md:SingleLogoutService
-            Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP"
-            Location="https://test-sp.clarin.eu/Shibboleth.sso/SLO/SOAP"/>
-        <md:SingleLogoutService
-            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
-            Location="https://test-sp.clarin.eu/Shibboleth.sso/SLO/Redirect"/>
-        <md:SingleLogoutService
+       <md:AssertionConsumerService
             Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
-            Location="https://test-sp.clarin.eu/Shibboleth.sso/SLO/POST"/>
-        <md:SingleLogoutService
-            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"
-            Location="https://test-sp.clarin.eu/Shibboleth.sso/SLO/Artifact"/>
-        <md:AssertionConsumerService
-            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
-            Location="https://test-sp.clarin.eu/Shibboleth.sso/SAML2/POST"
+            Location="https://resource_a.clarin.eu/Shibboleth.sso/SAML2/POST"
             index="1"/>
         <md:AssertionConsumerService
             Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign"
-            Location="https://test-sp.clarin.eu/Shibboleth.sso/SAML2/POST-SimpleSign"
+            Location="https://resource_a.clarin.eu/Shibboleth.sso/SAML2/POST-SimpleSign"
             index="2"/>
         <md:AssertionConsumerService
             Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"
-            Location="https://test-sp.clarin.eu/Shibboleth.sso/SAML2/Artifact"
+            Location="https://resource_a.clarin.eu/Shibboleth.sso/SAML2/Artifact"
             index="3"/>
         <md:AssertionConsumerService
             Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS"
-            Location="https://test-sp.clarin.eu/Shibboleth.sso/SAML2/ECP"
+            Location="https://resource_a.clarin.eu/Shibboleth.sso/SAML2/ECP"
             index="4"/>
+        
+        <md:AssertionConsumerService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+            Location="https://web_app_b.clarin.eu/Shibboleth.sso/SAML2/POST"
+            index="5"/>
+        <md:AssertionConsumerService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign"
+            Location="https://web_app_b.clarin.eu/Shibboleth.sso/SAML2/POST-SimpleSign"
+            index="6"/>
+        <md:AssertionConsumerService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"
+            Location="https://web_app_b.clarin.eu/Shibboleth.sso/SAML2/Artifact"
+            index="7"/>
+        <md:AssertionConsumerService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS"
+            Location="https://web_app_b.clarin.eu/Shibboleth.sso/SAML2/ECP"
+            index="8"/>
+        
+        <md:AssertionConsumerService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+            Location="https://test-sp.clarin.eu/Shibboleth.sso/SAML2/POST"
+            index="9"/>
+        <md:AssertionConsumerService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign"
+            Location="https://test-sp.clarin.eu/Shibboleth.sso/SAML2/POST-SimpleSign"
+            index="10"/>
+        <md:AssertionConsumerService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"
+            Location="https://test-sp.clarin.eu/Shibboleth.sso/SAML2/Artifact"
+            index="11"/>
+        <md:AssertionConsumerService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS"
+            Location="https://test-sp.clarin.eu/Shibboleth.sso/SAML2/ECP"
+            index="12"/>
+        <md:AttributeConsumingService
+            index="1">
+            <md:ServiceName
+                xml:lang="en">CLARIN - test-sp</md:ServiceName>
+            <md:ServiceDescription
+                xml:lang="en">For resource A and web application B.</md:ServiceDescription>
+            <md:RequestedAttribute
+                FriendlyName="eduPersonTargetedID"
+                Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
+                isRequired="true"/>
+            <md:RequestedAttribute
+                FriendlyName="eduPersonPrincipalName"
+                Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
+                isRequired="true"/>
+            <md:RequestedAttribute
+                FriendlyName="mail"
+                Name="urn:oid:0.9.2342.19200300.100.1.3"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
+                isRequired="false"/>
+        </md:AttributeConsumingService>
     </md:SPSSODescriptor>
+    <md:Organization>
+        <md:OrganizationName
+            xml:lang="en">CLARIN ERIC</md:OrganizationName>
+        <md:OrganizationDisplayName
+            xml:lang="en">CLARIN</md:OrganizationDisplayName>
+        <md:OrganizationURL
+            xml:lang="en">https://www.clarin.eu/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson
+        contactType="administrative">
+        <md:GivenName>Dieter</md:GivenName>
+        <md:SurName>Van Uytvanck</md:SurName>
+        <md:EmailAddress>mailto:clarin@clarin.eu</md:EmailAddress>
+    </md:ContactPerson>
+    <md:ContactPerson
+        contactType="support">
+        <md:GivenName>Dieter</md:GivenName>
+        <md:SurName>Van Uytvanck</md:SurName>
+        <md:EmailAddress>mailto:spf@clarin.eu</md:EmailAddress>
+    </md:ContactPerson>
+    <md:ContactPerson
+        contactType="technical">
+        <md:GivenName>Dieter</md:GivenName>
+        <md:SurName>Van Uytvanck</md:SurName>
+        <md:EmailAddress>mailto:sysops@clarin.eu</md:EmailAddress>
+    </md:ContactPerson>
+
 </md:EntityDescriptor>
