@@ -27,6 +27,7 @@
             </SSO>
             <!-- # end::SSO[] -->
             <Logout>SAML2 Local</Logout>
+            <NameIDMgmt>SAML2</NameIDMgmt>
             <!-- # tag::MetadataGenerator[] -->
             <Handler
                 type="MetadataGenerator"
