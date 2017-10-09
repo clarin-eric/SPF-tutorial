@@ -1,5 +1,5 @@
 = Your own Shibboleth Service Provider within the Service Provider Federation
-Sander Maijers <sander@clarin.eu>
+:author: Sander Maijers <sander@clarin.eu>
 :icons: font
 :toc: right
 :toclevels: 4
@@ -29,7 +29,7 @@ Visit https://console.developers.google.com/ and create a project, then an insta
 
 On your workstation, issue for example:
 
-[source,Sh]
+[source,sh]
 ----
 ssh-keygen -t 'ed25519' -C 'Your_Google_Name@gmail.com' -n 'Your_Google_Name@gmail.com' -f ~/'.ssh/Your_Google_Name@test-sp.clarin.eu' &&
 cat ~/'.ssh/Your_Google_Name@test-sp.clarin.eu.pub'
@@ -40,7 +40,7 @@ Now copy and paste your SSH public key, which is now displayed as a result of th
 
 In order to work with the VM from your own command line instead of the web terminal, prepend the following snippet:
 
-[source,subs="verbatim,attributes"]
+[source,apache,subs="verbatim,attributes"]
 .~/.ssh/config
 ----
 Match originalhost {sp-hostname}
@@ -52,7 +52,7 @@ Substituting `Your_Google_Name` with your own Google login name.
 
 You should now SSH into your SP host from a shell on your workstation:
 
-[subs="verbatim,attributes",source,Sh]
+[source,sh,subs="verbatim,attributes"]
 ----
 ssh '{sp-hostname}'
 ----
@@ -64,7 +64,7 @@ NOTE: From now on, work on the SP host except I when state otherwise.
 
 Begin by updating your OS packages:
 
-[source,Sh]
+[source,sh]
 ----
 sudo yum makecache fast &&
 sudo yum update
@@ -72,7 +72,7 @@ sudo yum update
 
 Then install the Shibboleth package repository so that your OS' package utilities such as `yum` will manage your Shibboleth installation:
 
-[source,Sh]
+[source,sh]
 ----
 (cd '/etc/yum.repos.d/' &&
 sudo curl -v --location --remote-name 'http://download.opensuse.org/repositories/security://shibboleth/CentOS_7/security:shibboleth.repo')
@@ -80,21 +80,21 @@ sudo curl -v --location --remote-name 'http://download.opensuse.org/repositories
 
 Now install Shibboleth SP (`shibd`) and Apache HTTP server (`httpd`)
 
-[source,Sh]
+[source,sh]
 ----
 sudo yum install 'shibboleth' 'httpd'
 ----
 
 Disable the Apache HTTP server and Shibboleth SP after bootup for now:
 
-[source,Sh]
+[source,sh]
 ----
 sudo systemctl disable 'shibd' 'httpd'
 ----
 
 Optionally, make sure your OS can find current versions of other software packages, which is critical if you e.g. wish to host a Python web application. Visit https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/repoview/ius-release.html[the IUS download page] to determine the current release version and URL. In the following I assume CentOS 7 on the x86_64 platform:
 
-[source,Sh]
+[source,sh]
 ----
 sudo mkdir '/srv/installers/' ;
 (cd '/srv/installers/' &&
@@ -108,7 +108,7 @@ sudo rm 'ius-release-1.0-14.ius.centos7.noarch.rpm')
 
 Optionally, you may find it very helpful later into this tutorial to have set up a more usable text editor than the default `vi`:
 
-[source,Sh]
+[source,sh]
 ----
 sudo yum install 'nano' &&
 printf '%s\n' 'EDITOR=nano export EDITOR ; ' >> ~/'.bashrc' &&
@@ -117,7 +117,7 @@ printf '%s\n' 'EDITOR=nano export EDITOR ; ' >> ~/'.bashrc' &&
 
 If the GNU/Linux kernel was updated, do remember to reboot now:
 
-[source,Sh]
+[source,sh]
 ----
 sudo reboot
 ----
@@ -128,7 +128,7 @@ sudo reboot
 
 Shibboleth SP https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig[demands that deployers run the coupled Apache HTTP server in the 'worker' mode] for performance reasons. Therefore, change `httpd`'s mode to 'worker' in `/etc/httpd/conf.modules.d/00-mpm.conf`.
 
-[source,Sh]
+[source,sh]
 ----
 sudo -e '/etc/httpd/conf.modules.d/00-mpm.conf'
 ----
@@ -138,14 +138,14 @@ NOTE: I will not repeat the command suggested above to edit a text file as super
 
 Following the https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/ch-Web_Servers.html#s2-apache-mod_ssl-enabling[Red Hat 7 System Administrator's Guide] is a starting point to enable TLS using OpenSSL.
 
-[source,Sh]
+[source,sh]
 ----
 sudo yum install mod_ssl openssl
 ----
 
 If SELinux is enabled, and it is by default on Red Hat 7, please stop it from enforcing policies. https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSELinux[Shibboleth urges us to do this], as SELinux has a hard-to-grasp impact and is even claimed to break Shibboleth SP.
 
-[source]
+[source,sh]
 ./etc/selinux/config
 ----
 # This file controls the state of SELinux on the system.
@@ -170,14 +170,14 @@ The Apache HTTP server configuration provided by many Linux distributions is rat
 Create a Virtual Host for your resource or application, following the https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/ch-Web_Servers.html#s2-apache-virtualhosts[Red Hat 7 System Administrator's Guide].
 To start out with, you can copy a template Virtual Host configuration file into a directory from which Apache HTTP server detects and reads configuration files. To remind you, in this tutorial I assume a fully-qualified domain name of the SP host equal to `{sp-fqdn}`, and so I give the file this corresponding name:
 
-[source,Sh,subs="verbatim,attributes"]
+[source,sh,subs="verbatim,attributes"]
 ----
 sudo cp --archive -v '/usr/share/doc/httpd-2.4.6/httpd-vhosts.conf' '/etc/httpd/conf.d/{sp-fqdn}.conf'
 ----
 
 First, make Apache HTTP server load the `mod_macro` module:
 
-[source,Sh]
+[source,sh]
 ----
 printf '%s\n' 'LoadModule macro_module modules/mod_macro.so' | sudo tee '/etc/httpd/conf.modules.d/00-macro.conf'
 ----
@@ -188,7 +188,7 @@ Comment out the `Listen` directive in `'/etc/httpd/conf/httpd.conf'`, because yo
 
 Comment out the `Location` directive for `'/secure'`
 
-[source,Apache]
+[source,apache]
 ./etc/httpd/conf.d/shib.conf
 ----
 #<Location /secure>
@@ -202,13 +202,13 @@ You will have to put a similar snippet back into the Virtual Host configuration 
 
 To create a Virtual Host configuration file that uses TLS (i.e. can be reached with an `https://` URL) straightforwardly, disable the monolithic default `ssl.conf` file:
 
-[source,Sh]
+[source,sh]
 ----
 sudo mv -v '/etc/httpd/conf.d/ssl.conf' '/etc/httpd/conf.d/ssl.conf.disabled'
 ----
 And create
 
-[source,Apache]
+[source,apache]
 ./etc/httpd/conf.d/0_TLS_generic.conf
 ----
 include::0_TLS_generic.conf[]
@@ -218,7 +218,7 @@ CAUTION: The contents of this helper configuration file are simply based on Red 
 
 An example Virtual Host configuration for your SP:
 
-[source,Apache]
+[source,apache]
 ./etc/httpd/conf.d/{sp-fqdn}.conf
 ----
 include::{sp-fqdn}.conf[]
@@ -227,7 +227,7 @@ include::{sp-fqdn}.conf[]
 
 The actual `DocumentRoot` directory tree that is declared in `'/etc/httpd/conf.d/{sp-fqdn}.conf'` must be created still:
 
-[source,Sh]
+[source,sh]
 ----
 (sudo mkdir --mode=a+rx --parents -v '/srv/www/{sp-fqdn}/' ;
 cd '/srv/www/{sp-fqdn}/' &&
@@ -238,7 +238,7 @@ sudo chcon --recursive --type httpd_used_content_t '/srv/www/')
 
 To create a minimal example of optionally protected static content (e.g., resources as files), make some mock content like so:
 
-[source,Sh,subs="verbatim,attributes"]
+[source,sh,subs="verbatim,attributes"]
 ----
 (cd '/srv/www/{sp-fqdn}/' &&
 sudo mkdir -v 'protected/' &&
@@ -259,7 +259,7 @@ IMPORTANT: An important source of service-disrupting errors in XML configuration
 // TODO: how to configure schemas in XML editor.
 Now on your workstation, issue:
 
-[source,Sh,subs="verbatim,attributes"]
+[source,sh,subs="verbatim,attributes"]
 ----
 mkdir ~/'{sp-hostname}/' ;
 (cd ~/'{sp-hostname}/' &&
@@ -291,7 +291,7 @@ Your SP needs to know which Identity Providers (IdPs) its users may come from.
 
 * This setting -- which is SPF-specific -- is at `/conf:SPConfig/conf:ApplicationDefaults[1]/conf:MetadataProvider[1]`. What to put here is briefly described at http://www.clarin.eu/content/creating-and-testing-shibboleth-sp. Which IdPs the two SAML metadata batches referred to in the snippet are about is described at http://www.clarin.eu/content/where-do-i-find-saml-metadata-identity-federations. All in all, you will end up with the following snippet:
 +
-[source,XML,indent=0]
+[source,xml,indent=0]
 .~/{sp-hostname}/etc/shibboleth/shibboleth2.xml
 ----
 include::shibboleth2.xml[tags=MetadataProvider]
@@ -303,7 +303,7 @@ The http://www.clarin.eu/content/clarin-discovery-service[CLARIN central Discove
 
 * Replace the `/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/conf:SSO[1]` element with the snippet at https://www.clarin.eu/node/3481[CLARIN central Discovery Service]:
 +
-[source,XML,indent=0]
+[source,xml,indent=0]
 .~/{sp-hostname}/etc/shibboleth/shibboleth2.xml
 ----
 include::shibboleth2.xml[tags=SSO]
@@ -320,7 +320,7 @@ As https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPGettingStarted[s
 ==== SAML metadata template
 You must create SAML metadata that describes your SP. This will be discussed in <<Creating SAML metadata about your SP for external distribution>>. For now, configure an initial quasi SAML metadata file as template for the Metadata Generator handler at `/conf:SPConfig/conf:ApplicationDefaults[1]/conf:Sessions[1]/conf:Handler[@type='MetadataGenerator']`, substituting the element with:
 
-[source,XML,indent=0]
+[source,xml,indent=0]
 .~/{sp-hostname}/etc/shibboleth/shibboleth2.xml
 ----
 include::shibboleth2.xml[tags=MetadataGenerator]
@@ -333,7 +333,7 @@ TIP: Configuration is not documentation and any documentation you leave in now m
 
 If you have completed the previous sections successfully, you now have about this main configuration:
 
-[source,XML]
+[source,xml]
 .~/{sp-hostname}/etc/shibboleth/shibboleth2.xml
 ----
 include::shibboleth2.xml[]
@@ -350,7 +350,7 @@ You must configure Shibboleth SP with the right key separately from whatever you
 
 Become superuser, and set the `umask` such that no other user will be able to read files you create:
 
-[source,Sh]
+[source,sh]
 ----
 sudo su
     umask 066
@@ -358,7 +358,7 @@ sudo su
 
 Now create a directory to store the key pair in securely, and generate the key pair:
 
-[source,Sh,subs="verbatim,attributes"]
+[source,sh,subs="verbatim,attributes"]
 ----
 mkdir --mode=u=rwx,go= '/root/keys/' ;
 cd '/root/keys/' &&
@@ -372,27 +372,28 @@ exit
 === Creating SAML metadata about your SP for external distribution
 SAML metadata that describes your SP is required for your SP to be registered with identity federations. While you create and update this SAML metadata, it is managed centrally by the SPF administration.
 
-As described on http://www.clarin.eu/content/how-sp-metadata-distributed-national-identity-federations[this CLARIN web page], the contents of the preproduction SAML metadata batch about SPF SPs at https://infra.clarin.eu/aai/md_about_spf_sps.xml are directly sourced from the SAML metadata batch kept in the CLARIN Subversion repository at https://svn.clarin.eu/aai/clarin-sp-metadata.xml.
+As described on https://github.com/clarin-eric/SPF-SPs-metadata[the CLARIN SPF SPs metadata repository on GitHub], the contents of the preproduction SAML metadata batch about SPF SPs at https://infra.clarin.eu/aai/md_about_spf_sps.xml are directly sourced from the SAML metadata batch kept in the "production" branch of the CLARIN GitHub repository at https://raw.githubusercontent.com/clarin-eric/SPF-SPs-metadata/production/clarin-sp-metadata.xml.
 
 NOTE: You may have to temporarily configure your XML editor to accept invalid X.509 certificates when reading XML data from URLs, as you will do in the following steps. This is a consequence of the circumstance that TLS is not yet configured to a production level on the Apache HTTP server, as noted previously.
 
 Now create the SAML metadata template file `'{sp-fqdn}.template.metadata.xml'` in `~/'{sp-hostname}/etc/shibboleth'` in the following way.
 
-. Check out the SAML metadata batch kept in the CLARIN Subversion repository:
+. Create your own fork of the https://github.com/clarin-eric/SPF-SPs-metadata[CLARIN SPs metadata repository on github].
+. Checkout your forked repository:
 +
-[source,Sh]
+[source,sh]
 ----
-mkdir --parents ~/'CLARIN/SVN/parts/' ;
-(cd ~/'CLARIN/SVN/parts/' &&
-svn checkout 'https://svn.clarin.eu/aai/')
+mkdir --parents ~/'CLARIN/git/parts/' ;
+(cd ~/'CLARIN/git/parts/' &&
+git clone 'https://github.com/<your_fork_location>/SPF-SPs-metadata.git' --recursive)
 ----
 +
-. Open `~/'CLARIN/SVN/parts/aai/clarin-sp-metadata.xml'` with your XML editor. Find an example of good SAML metadata about an SP, an `md:EntityDescriptor` element. The best starting point to determine what is '`good`' are CLARIN's own http://www.clarin.eu/content/guidelines-saml-metadata-about-your-sp[guidelines for SAML metadata about SPF SPs].
+. Open `~/'CLARIN/git/parts/SPF-SPs-metadata/clarin-sp-metadata.xml'` with your XML editor. Find an example of good SAML metadata about an SP, an `md:EntityDescriptor` element. The best starting point to determine what is '`good`' are CLARIN's own http://www.clarin.eu/content/guidelines-saml-metadata-about-your-sp[guidelines for SAML metadata about SPF SPs].
 +
 . Copy this `md:EntityDescriptor` element into a new XML file in your XML editor.
 . Optionally, fetch the original SAML metadata about your SP that is being generated automatically by the Metadata Generator handler by opening its default URL in XML editor.
 +
-[source,XML]
+[source,xml]
 .https://{sp-fqdn}/Shibboleth.sso/Metadata
 ----
 include::basic_SAML_metadata_about_{sp-fqdn}.xml[]
@@ -401,7 +402,7 @@ include::basic_SAML_metadata_about_{sp-fqdn}.xml[]
 This gives a picture of what bare example SAML metadata about your SP looks like.
 . Now create a template file like the following:
 +
-[source,XML]
+[source,xml]
 .~/{sp-hostname}/etc/shibboleth/{sp-fqdn}.template.metadata.xml
 ----
 include::test-sp.clarin.eu.template.metadata.xml[]
@@ -409,29 +410,40 @@ include::test-sp.clarin.eu.template.metadata.xml[]
 +
 The previous listing is basically a stripped-down version with regards to all dynamic/automatically generated elements in https://{sp-fqdn}/Shibboleth.sso/Metadata.
 . Save the file.
-. Add the contents of the previously saved `~/{sp-hostname}/etc/shibboleth/{sp-fqdn}.template.metadata.xml` as an element under `/md:EntitiesDescriptor` in `~/'CLARIN/SVN/parts/aai/clarin-sp-metadata.xml'`. Save the latter file.
-. Validate the file with your XML editor and the appropriate XML catalog of XSD schemas, or alternatively using the accompanying command line utility `~/'CLARIN/SVN/parts/aai/check_saml_metadata.sh'`.
+. Add the contents of the previously saved `~/{sp-hostname}/etc/shibboleth/{sp-fqdn}.template.metadata.xml` as an element under `/md:EntitiesDescriptor` in `~/'CLARIN/git/parts/SPF-SPs-metadata/clarin-sp-metadata.xml'`. Save the latter file.
+. Validate the file with your XML editor and the appropriate XML catalog of XSD schemas, or alternatively using the accompanying command line utility `~/'CLARIN/git/parts/SPF-SPs-metadata/check-saml-metadata/check_saml_metadata.sh'` .
 +
-[source,Sh]
+[source,sh]
 ----
-(cd ~/'CLARIN/SVN/parts/aai/' &&
+(cd ~/'CLARIN/git/parts/SPF-SPs-metadata/' &&
 ./check-saml-metadata/check_saml_metadata.sh 'clarin-sp-metadata.xml')
 ----
 +
-. Once validation has succeeded and you have double-checked the final contents yourself, commit your revision of the SAML metadata batch back to the CLARIN SVN.
+. Once validation has succeeded and you have double-checked the final contents yourself, commit and push your revision of the SAML metadata batch into your git fork.
 +
-[source,Sh]
+[source,sh,subs="verbatim,attributes"]
 ----
-(cd ~/'CLARIN/SVN/parts/aai/' &&
-svn commit 'clarin-sp-metadata.xml')
+(cd ~/'CLARIN/git/parts/SPF-SPs-metadata/' &&
+git commit -m 'Added {sp-fqdn} Service Provider' 'clarin-sp-metadata.xml' && 
+git push)
 ----
++
+. Go back to your repository fork on the GitHub website and create a pull request to the _master_ branch of the original CLARIN ERIC repository (SPF-SPs-metadata).
++
+After your pull request is created the _check_saml_metadata.sh_ script will automactically run on the pull request code via Travis CI. The result of this check will be visible on the pull request page. Check the existing pull resquests on the original repository for examples.
++
+If your pull request successfully passes XSD validation, a CLARIN SPF operator will merge it into the _master_ branch of original repository for QA assessment. Note: the SPF operators will only consider for merging pull requests which are XSD valid. If you cannot make you file successfully pass the XSD validation or you believe you are hitting a false positive. Please create an https://github.com/clarin-eric/SPF-SPs-metadata/issues/new[issue] explaining the problem.
++
+Every hour a cron job automatically analyzes the latest _master_ version and generates a QA report visible in https://docs.google.com/spreadsheets/d/1cwg2kiPL2ubzmtw7Ffe0rbQuJpuOoklFHJ10nR3Bn_M/edit#gid=1150504785[this spreadsheet]. Mind to check and resolve issues in the SAML metadata quality for your SP after your pull request has been merged into the _master_ branch.
++
+Finally your metadata will be merged into the 'production' branch and picked up by an hourly cron job which automatically checks out the latest version and publishes it at ​http://infra.clarin.eu/aai/prod_clarin_sp_metadata.xml
 // TODO: Attribute mapping
 
 === Pushing your revisions to your Shibboleth Service Provider configuration
 
 Push your changes Shibboleth SP configuration directory to your SP-host:
 
-[source,Sh,subs="verbatim,attributes"]
+[source,sh,subs="verbatim,attributes"]
 ----
 (cd ~/{sp-hostname}/etc/shibboleth/ &&
 rsync --archive --backup --itemize-changes --no-owner --no-group --relative --update -v '.' '{sp-hostname}:shibboleth')
@@ -439,7 +451,7 @@ rsync --archive --backup --itemize-changes --no-owner --no-group --relative --up
 
 Then on your SP host, push the new-config to `/etc/shibboleth`:
 
-[source,Sh]
+[source,sh]
 ----
 (cd ~/shibboleth/ &&
 sudo rsync --archive --backup --itemize-changes --no-owner --no-group --relative --update -v '.' '/etc/shibboleth')
@@ -447,21 +459,21 @@ sudo rsync --archive --backup --itemize-changes --no-owner --no-group --relative
 == Starting and enabling Shibboleth SP and Apache HTTP Server
 (Re)start `shibd`:
 
-[source,Sh]
+[source,sh]
 ----
 sudo systemctl restart 'shibd'
 ----
 
 If that succeeds, you are now ready to (re)start the Apache HTTP server:
 
-[source,Sh]
+[source,sh]
 ----
 sudo systemctl restart 'httpd'
 ----
 
 If these steps succeeded, enable automatic starting of the Apache HTTP server and Shibboleth SP after bootup:
 
-[source,Sh]
+[source,sh]
 ----
 sudo systemctl enable 'shibd' 'httpd'
 ----
@@ -474,7 +486,7 @@ Do a check whether the SAML metadata about your SP being generated by the Metada
 
 To check whether your unprotected resource is being served out over HTTP:
 
-[source,Sh,subs="verbatim,attributes"]
+[source,sh,subs="verbatim,attributes"]
 ----
 curl --insecure 'https://{sp-fqdn}/my_resource.txt'
 ----
