@@ -1,1 +1,1 @@
-https://cdn.rawgit.com/clarin-eric/SPF-tutorial/master/Shib_SP_tutorial.html[View the rendered Shib_SP_tutorial].
+https://cdn.rawgit.com/clarin-eric/SPF-tutorial/0c5b9a40/Shib_SP_tutorial.html[View the rendered Shib_SP_tutorial].
