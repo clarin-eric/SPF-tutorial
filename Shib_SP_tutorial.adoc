@@ -432,7 +432,10 @@ git push)
 +
 After your pull request is created the _check_saml_metadata.sh_ script will automactically run on the pull request code via Travis CI. The result of this check will be visible on the pull request page. Check the existing pull resquests on the original repository for examples.
 +
-If your pull request successfully passes XSD validation, a CLARIN SPF operator will merge it into the _master_ branch of original repository for QA assessment. Note: the SPF operators will only consider for merging pull requests which are XSD valid. If you cannot make you file successfully pass the XSD validation or you believe you are hitting a false positive. Please create an https://github.com/clarin-eric/SPF-SPs-metadata/issues/new[issue] explaining the problem.
+If your pull request successfully passes XSD validation, a CLARIN SPF operator will merge it into the _master_ branch of original repository for QA assessment.
++
+NOTE: The SPF operators will only consider for merging pull requests which are XSD valid. If you cannot make you file successfully pass the XSD validation or you believe you are hitting a false positive. Please create an https://github.com/clarin-eric/SPF-SPs-metadata/issues/new[
+issue] explaining the problem.
 +
 Every hour a cron job automatically analyzes the latest _master_ version and generates a QA report visible in https://docs.google.com/spreadsheets/d/1cwg2kiPL2ubzmtw7Ffe0rbQuJpuOoklFHJ10nR3Bn_M/edit#gid=1150504785[this spreadsheet]. Mind to check and resolve issues in the SAML metadata quality for your SP after your pull request has been merged into the _master_ branch.
 +

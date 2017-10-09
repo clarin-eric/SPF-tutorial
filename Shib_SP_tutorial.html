@@ -1814,7 +1814,20 @@ git push<span class="tok-o">)</span></code></pre>
 <p>After your pull request is created the <em>check_saml_metadata.sh</em> script will automactically run on the pull request code via Travis CI. The result of this check will be visible on the pull request page. Check the existing pull resquests on the original repository for examples.</p>
 </div>
 <div class="paragraph">
-<p>If your pull request successfully passes XSD validation, a CLARIN SPF operator will merge it into the <em>master</em> branch of original repository for QA assessment. Note: the SPF operators will only consider for merging pull requests which are XSD valid. If you cannot make you file successfully pass the XSD validation or you believe you are hitting a false positive. Please create an <a href="https://github.com/clarin-eric/SPF-SPs-metadata/issues/new">issue</a> explaining the problem.</p>
+<p>If your pull request successfully passes XSD validation, a CLARIN SPF operator will merge it into the <em>master</em> branch of original repository for QA assessment.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The SPF operators will only consider for merging pull requests which are XSD valid. If you cannot make you file successfully pass the XSD validation or you believe you are hitting a false positive. Please create an <a href="https://github.com/clarin-eric/SPF-SPs-metadata/issues/new">
+issue</a> explaining the problem.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Every hour a cron job automatically analyzes the latest <em>master</em> version and generates a QA report visible in <a href="https://docs.google.com/spreadsheets/d/1cwg2kiPL2ubzmtw7Ffe0rbQuJpuOoklFHJ10nR3Bn_M/edit#gid=1150504785">this spreadsheet</a>. Mind to check and resolve issues in the SAML metadata quality for your SP after your pull request has been merged into the <em>master</em> branch.</p>
@@ -1908,7 +1921,7 @@ sudo rsync --archive --backup --itemize-changes --no-owner --no-group --relative
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-09 17:44:12 CEST
+Last updated 2017-10-09 17:51:32 CEST
 </div>
 </div>
 </body>
