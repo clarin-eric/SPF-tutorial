@@ -17,7 +17,8 @@
             relayState="ss:mem"
             checkAddress="true"
             handlerSSL="true"
-            cookieProps="https">
+            cookieProps="https"
+            redirectLimit="exact">
             <!-- # tag::SSO[] -->
             <!-- CLARIN central discovery service (DiscoJuice) -->
             <SSO
