@@ -85,6 +85,8 @@ Now install Shibboleth SP (`shibd`) and Apache HTTP server (`httpd`)
 sudo yum install 'shibboleth' 'httpd'
 ----
 
+Shibboleth service provider version 3 or later is required!
+
 Disable the Apache HTTP server and Shibboleth SP after bootup for now:
 
 [source,sh]
